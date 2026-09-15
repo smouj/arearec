@@ -1,6 +1,15 @@
-# AreaRec
+<p align="center">
+  <img src="assets/logo.png" alt="AreaRec" width="128"><br>
+  <strong>AreaRec</strong>
+</p>
 
-**Select a region. Record it. Get an MP4.**
+<p align="center">
+  <em>Select a region. Record it. Get an MP4.</em>
+</p>
+
+<p align="center">
+  <img src="assets/social-banner.png" alt="AreaRec Banner" width="640">
+</p>
 
 AreaRec is a tiny, local-first Windows screen recorder focused on one workflow: drag a rectangle over the screen and record exactly that area. No account, no cloud, no telemetry, no editor.
 
