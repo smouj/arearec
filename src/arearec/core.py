@@ -27,6 +27,16 @@ class Region:
     def valid(self) -> bool:
         return self.width >= 2 and self.height >= 2
 
+    def __str__(self) -> str:
+        return f"{self.width}×{self.height}  ·  ({self.x}, {self.y})"
+
+    def to_dict(self) -> dict:
+        return {"x": self.x, "y": self.y, "width": self.width, "height": self.height}
+
+    @classmethod
+    def from_dict(cls, d: dict) -> "Region":
+        return cls(d["x"], d["y"], d["width"], d["height"])
+
 
 def resolve_ffmpeg(app_dir: Path) -> str | None:
     bundled = app_dir / "bin" / "ffmpeg.exe"
