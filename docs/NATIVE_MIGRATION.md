@@ -185,12 +185,12 @@ RecordingSession wiring are implemented. The product path requests hardware
 Media Foundation transforms when enabled, enumerates hardware H.264 MFTs, supplies NV12 input and probes the
 selected Sink Writer transform. This host selected `NVIDIA H.264 Encoder MFT`
 with a hardware URL and the Source Reader decoded the resulting MP4.  
-M6 local end-to-end: **IMPLEMENTED/VERIFIED** on the current desktop for 30 and
-60 FPS, producing non-empty `640×360` MP4 containers. The Media Foundation
-Source Reader playback check decodes the synthetic smoke file and both local
-30/60 FPS E2E outputs; a cursor-enabled 30 FPS E2E output also decodes
-successfully. Multi-monitor/mixed-DPI behavior, performance and packaging
-criteria remain
+M6 local end-to-end: **IMPLEMENTED/VERIFIED** on the current desktop for WGC
+and DXGI at 30 and 60 FPS, producing non-empty `640×360` MP4 containers. The
+Media Foundation Source Reader playback check decodes the synthetic smoke file
+and all local WGC/DXGI 30/60 FPS E2E outputs; a cursor-enabled 30 FPS E2E output
+also decodes successfully. Multi-monitor/mixed-DPI behavior, performance and
+packaging criteria remain
 **NOT VERIFIED**.
 
 M10 cleanup: **COMPLETE** for the product path. The Python/Tkinter application,

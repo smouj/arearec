@@ -87,8 +87,9 @@ The `<300 ms` startup aspiration was not met in the measured run.
 ## 8. Compatibility evidence
 
 Verified locally on Windows 10 Pro `10.0.19045` x64, .NET 8, Intel Core i7-6700
-and NVIDIA GeForce GTX 1060. The current host exposes one monitor and no
-microphone endpoint.
+and NVIDIA GeForce GTX 1060. WGC and DXGI both pass local capture/E2E playback
+smokes on this host. The current host exposes one monitor and no microphone
+endpoint.
 
 ## 9. NOT VERIFIED
 

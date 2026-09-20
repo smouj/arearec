@@ -18,7 +18,7 @@ required hardware, remote runner or visual acceptance evidence was not available
 | Negative physical coordinates | Core intersection and region normalization tests | PASS by deterministic tests |
 | Mixed-DPI and multi-monitor visual accuracy | `PerMonitorV2` manifest is wired into the app; physical-coordinate compositor partition tests cover negative origins and monitor boundaries | **NOT VERIFIED** visually on this one-monitor host |
 | Windows Graphics Capture | Runtime smoke: 3 frames at `1360×768` | PASS locally |
-| DXGI Desktop Duplication | Runtime smoke delivered 3 frames at `1360×768`; latest trace shows successful `AcquireNextFrame` calls after a controlled visible pulse | PASS locally; cross-host/multi-monitor behavior remains unverified |
+| DXGI Desktop Duplication | Runtime smoke delivered 3 frames at `1360×768`; DXGI E2E playback decoded 129/129 frames at 30 FPS and 258/258 at 60 FPS; latest trace shows successful `AcquireNextFrame` calls | PASS locally; cross-host/multi-monitor behavior remains unverified |
 | D3D11 crop/readback and pacing | WGC-to-MP4 E2E with D3D11 processing, bounded queue, duplicate/drop accounting | PASS locally |
 | 30 FPS H.264/MP4 | Latest hardware E2E with playback validation: 23 encoded/decoded frames, `640×360`, `767 ms` track; NVIDIA H.264 Encoder MFT selected | PASS locally |
 | 60 FPS H.264/MP4 | Hardware E2E with playback validation: 44 encoded/decoded frames, `640×360`, `733 ms` track; NVIDIA H.264 Encoder MFT selected | PASS locally |

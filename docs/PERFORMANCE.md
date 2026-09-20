@@ -50,6 +50,12 @@ These are smoke measurements, not release targets. Captured on 2026-09-20:
   selected the NVIDIA H.264 Encoder MFT.
 - Cursor enabled at 30 FPS: 22 encoded/decoded frames, 16 duplicated and 1
   dropped, MP4 track 733 ms, wall 1514 ms, process CPU 6.2%, working set 90 MB.
+- DXGI Desktop Duplication E2E with hardware H.264 and Source Reader playback:
+  30 FPS produced `129/129` decoded frames, 6 duplicates and 71 drops, a
+  `4300 ms` track, `5768 ms` wall time, `2.9%` process CPU and `85 MB`
+  working set. The 60 FPS run produced `258/258` decoded frames, 149
+  duplicates and 4 drops, a `4300 ms` track, `5766 ms` wall time, `3.3%`
+  process CPU and `84 MB` working set.
 
 ### Synthetic Media Foundation benchmark
 

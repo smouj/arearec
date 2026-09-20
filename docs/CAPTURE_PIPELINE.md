@@ -65,7 +65,9 @@ with hardware/WARP fallback, free-threaded frame pool and bounded GPU-frame
 queue. WGC and DXGI each pass a local smoke with 3 frames at `1360×768` on the
 current Windows desktop; the latest DXGI trace reports successful
 `AcquireNextFrame` calls after a controlled visible pulse. Cross-host and
-multi-monitor fallback behavior remains **NOT VERIFIED**. The Media Foundation
+multi-monitor fallback behavior remains **NOT VERIFIED**. The complete DXGI
+path also produced and Source Reader-decoded `640×360` MP4s at 30 FPS
+(`129/129` frames) and 60 FPS (`258/258` frames). The Media Foundation
 sink converts CPU-readable BGRA frames to NV12 and commits through a
 temporary sibling file. The local end-to-end smoke now captures WGC frames,
 crops/readbacks `640×360` through D3D11, and writes an MP4 through the
