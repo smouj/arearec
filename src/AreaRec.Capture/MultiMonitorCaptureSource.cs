@@ -97,33 +97,141 @@ public sealed class MultiMonitorCaptureSource : ICaptureSource, IFrameDropMetric
         [EnumeratorCancellation] CancellationToken cancellationToken)
     {
         var enumerators = _enumerators ?? throw new InvalidOperationException("The capture source has not started.");
-        while (!cancellationToken.IsCancellationRequested)
+        var latest = new RetainedNativeTextureFrameSurface?[enumerators.Count];
+        var latestTimestamps = new TimeSpan[enumerators.Count];
+        var currentFrameOwned = new bool[enumerators.Count];
+        var initialPending = Array.Empty<Task<bool>>();
+        Task<bool>[]? pending = null;
+
+        try
         {
-            var nextFrames = await Task.WhenAll(
-                enumerators.Select(enumerator => enumerator.MoveNextAsync().AsTask())).ConfigureAwait(false);
-            if (nextFrames.Any(hasFrame => !hasFrame))
+            // Do not require all monitors to produce a new frame at the same
+            // instant. Each monitor owns an independent capture clock; the
+            // compositor uses the newest texture from each one.
+            initialPending = enumerators
+                .Select(enumerator => enumerator.MoveNextAsync().AsTask())
+                .ToArray();
+            var remainingInitial = new HashSet<int>(Enumerable.Range(0, enumerators.Count));
+            while (remainingInitial.Count > 0)
             {
-                for (var index = 0; index < enumerators.Count; index++)
+                var completed = await Task.WhenAny(
+                    remainingInitial.Select(index => initialPending[index])).ConfigureAwait(false);
+                var index = Array.IndexOf(initialPending, completed);
+                var hasFrame = await completed.ConfigureAwait(false);
+                if (!hasFrame)
                 {
-                    if (nextFrames[index])
+                    if (cancellationToken.IsCancellationRequested)
                     {
-                        enumerators[index].Current.Surface.Dispose();
+                        yield break;
                     }
+
+                    throw new InvalidOperationException(
+                        "A monitor capture ended before the multi-monitor compositor received its first frame.");
                 }
 
-                yield break;
+                currentFrameOwned[index] = true;
+                (latest[index], latestTimestamps[index]) = RetainCurrentFrame(enumerators[index]);
+                currentFrameOwned[index] = false;
+                remainingInitial.Remove(index);
             }
 
-            var frames = enumerators.Select(enumerator => enumerator.Current).ToArray();
-            var components = frames
-                .Select(frame => frame.Surface as INativeTextureFrameSurface
-                    ?? throw new InvalidOperationException("A monitor backend returned a non-native frame."))
+            yield return CreateCompositeFrame(latest, latestTimestamps);
+
+            pending = enumerators
+                .Select(enumerator => enumerator.MoveNextAsync().AsTask())
                 .ToArray();
-            var timestamp = frames.Max(frame => frame.Timestamp);
-            yield return new CapturedFrame(
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                var completed = await Task.WhenAny(pending).ConfigureAwait(false);
+                var index = Array.IndexOf(pending, completed);
+                var hasFrame = await completed.ConfigureAwait(false);
+                if (!hasFrame)
+                {
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        yield break;
+                    }
+
+                    throw new InvalidOperationException(
+                        "A monitor capture ended while the multi-monitor compositor was recording.");
+                }
+
+                currentFrameOwned[index] = true;
+                var retained = RetainCurrentFrame(enumerators[index]);
+                currentFrameOwned[index] = false;
+                latest[index]?.Dispose();
+                latest[index] = retained.Surface;
+                latestTimestamps[index] = retained.Timestamp;
+                pending[index] = enumerators[index].MoveNextAsync().AsTask();
+                yield return CreateCompositeFrame(latest, latestTimestamps);
+            }
+        }
+        finally
+        {
+            for (var index = 0; index < latest.Length; index++)
+            {
+                var initialFrameNeedsDisposal = latest[index] is null &&
+                    index < initialPending.Length &&
+                    initialPending[index].IsCompletedSuccessfully &&
+                    initialPending[index].Result;
+                var pendingFrameNeedsDisposal = pending is not null &&
+                    pending[index].IsCompletedSuccessfully &&
+                    pending[index].Result;
+                if (currentFrameOwned[index] || initialFrameNeedsDisposal || pendingFrameNeedsDisposal)
+                {
+                    enumerators[index].Current.Surface.Dispose();
+                }
+
+                latest[index]?.Dispose();
+            }
+        }
+    }
+
+    private CapturedFrame CreateCompositeFrame(
+        IReadOnlyList<RetainedNativeTextureFrameSurface?> latest,
+        IReadOnlyList<TimeSpan> timestamps)
+    {
+        var components = new List<INativeTextureFrameSurface>(latest.Count);
+        try
+        {
+            foreach (var surface in latest)
+            {
+                components.Add(surface?.CloneLease()
+                    ?? throw new InvalidOperationException("A monitor compositor component is unavailable."));
+            }
+
+            return new CapturedFrame(
                 Interlocked.Increment(ref _sequence),
-                timestamp,
-                new CompositeNativeFrameSurface(_targetRegion, components));
+                timestamps.Max(),
+                new CompositeNativeFrameSurface(_targetRegion, components.ToArray()));
+        }
+        catch
+        {
+            foreach (var component in components)
+            {
+                component.Dispose();
+            }
+
+            throw;
+        }
+    }
+
+    private static (RetainedNativeTextureFrameSurface Surface, TimeSpan Timestamp) RetainCurrentFrame(
+        IAsyncEnumerator<CapturedFrame> enumerator)
+    {
+        var frame = enumerator.Current;
+        try
+        {
+            if (frame.Surface is not INativeTextureFrameSurface nativeSurface)
+            {
+                throw new InvalidOperationException("A monitor backend returned a non-native frame.");
+            }
+
+            return (RetainedNativeTextureFrameSurface.From(nativeSurface), frame.Timestamp);
+        }
+        finally
+        {
+            frame.Surface.Dispose();
         }
     }
 
@@ -194,6 +302,73 @@ public sealed class MultiMonitorCaptureSource : ICaptureSource, IFrameDropMetric
             foreach (var component in _components)
             {
                 component.Dispose();
+            }
+        }
+    }
+
+    private sealed class RetainedNativeTextureFrameSurface : INativeTextureFrameSurface
+    {
+        private nint _nativeTexture;
+
+        private RetainedNativeTextureFrameSurface(
+            nint nativeTexture,
+            nint nativeDevice,
+            nint nativeContext,
+            PhysicalRegion sourceRegion)
+        {
+            _nativeTexture = nativeTexture;
+            NativeDevice = nativeDevice;
+            NativeContext = nativeContext;
+            SourceRegion = sourceRegion;
+        }
+
+        public int Width => SourceRegion.Width;
+
+        public int Height => SourceRegion.Height;
+
+        public nint NativeTexture => _nativeTexture == 0
+            ? throw new ObjectDisposedException(nameof(RetainedNativeTextureFrameSurface))
+            : _nativeTexture;
+
+        public nint NativeDevice { get; }
+
+        public nint NativeContext { get; }
+
+        public PhysicalRegion SourceRegion { get; }
+
+        public static RetainedNativeTextureFrameSurface From(INativeTextureFrameSurface source)
+        {
+            var nativeTexture = source.NativeTexture;
+            if (nativeTexture == 0)
+            {
+                throw new InvalidOperationException("A monitor backend returned an empty native texture.");
+            }
+
+            Marshal.AddRef(nativeTexture);
+            return new RetainedNativeTextureFrameSurface(
+                nativeTexture,
+                source.NativeDevice,
+                source.NativeContext,
+                source.SourceRegion);
+        }
+
+        public RetainedNativeTextureFrameSurface CloneLease()
+        {
+            var nativeTexture = NativeTexture;
+            Marshal.AddRef(nativeTexture);
+            return new RetainedNativeTextureFrameSurface(
+                nativeTexture,
+                NativeDevice,
+                NativeContext,
+                SourceRegion);
+        }
+
+        public void Dispose()
+        {
+            var nativeTexture = Interlocked.Exchange(ref _nativeTexture, 0);
+            if (nativeTexture != 0)
+            {
+                Marshal.Release(nativeTexture);
             }
         }
     }

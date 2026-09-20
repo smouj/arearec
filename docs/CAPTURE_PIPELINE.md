@@ -62,7 +62,9 @@ Implemented: contracts, physical region model, monotonic clock, frame pacing,
 recording-session accounting, WGC monitor capture, DXGI Desktop Duplication
 fallback, multi-monitor component capture/composition, D3D11 device creation
 with hardware/WARP fallback, free-threaded frame pool and bounded GPU-frame
-queue. WGC and DXGI each pass a local smoke with 3 frames at `1360×768` on the
+queue. The multi-monitor compositor retains the latest native texture per
+monitor and emits a composite when any monitor advances, so an idle display
+cannot block an active one. WGC and DXGI each pass a local smoke with 3 frames at `1360×768` on the
 current Windows desktop; the latest DXGI trace reports successful
 `AcquireNextFrame` calls after a controlled visible pulse. Cross-host and
 multi-monitor fallback behavior remains **NOT VERIFIED**. The complete DXGI
