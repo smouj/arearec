@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <AssemblyName>AreaRec</AssemblyName>
+    <RootNamespace>AreaRec.App</RootNamespace>
+    <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AreaRec.Core\AreaRec.Core.csproj" />
+    <ProjectReference Include="..\AreaRec.Capture\AreaRec.Capture.csproj" />
+    <ProjectReference Include="..\AreaRec.Graphics\AreaRec.Graphics.csproj" />
+    <ProjectReference Include="..\AreaRec.Media\AreaRec.Media.csproj" />
+    <ProjectReference Include="..\AreaRec.Platform.Windows\AreaRec.Platform.Windows.csproj" />
+  </ItemGroup>
+</Project>

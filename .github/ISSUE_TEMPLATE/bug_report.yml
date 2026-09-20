@@ -22,6 +22,10 @@ body:
     validations:
       required: true
   - type: input
-    id: ffmpeg
+    id: backend
     attributes:
-      label: FFmpeg version
+      label: Capture backend (WGC/DXGI)
+  - type: input
+    id: dpi
+    attributes:
+      label: Display resolution and scaling

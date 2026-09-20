@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>AreaRec.Capture.Smoke</AssemblyName>
+    <RootNamespace>AreaRec.Capture.Smoke</RootNamespace>
+    <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\AreaRec.Core\AreaRec.Core.csproj" />
+    <ProjectReference Include="..\..\src\AreaRec.Capture\AreaRec.Capture.csproj" />
+    <ProjectReference Include="..\..\src\AreaRec.Graphics\AreaRec.Graphics.csproj" />
+  </ItemGroup>
+</Project>

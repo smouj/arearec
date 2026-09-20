@@ -1,0 +1,12 @@
+C:\Users\VersusPc\Documents\Playground\arearec\src\AreaRec.Core\bin\Release\net8.0\AreaRec.Core.deps.json
+C:\Users\VersusPc\Documents\Playground\arearec\src\AreaRec.Core\bin\Release\net8.0\AreaRec.Core.dll
+C:\Users\VersusPc\Documents\Playground\arearec\src\AreaRec.Core\bin\Release\net8.0\AreaRec.Core.pdb
+C:\Users\VersusPc\Documents\Playground\arearec\src\AreaRec.Core\obj\Release\net8.0\AreaRec.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\VersusPc\Documents\Playground\arearec\src\AreaRec.Core\obj\Release\net8.0\AreaRec.Core.AssemblyInfoInputs.cache
+C:\Users\VersusPc\Documents\Playground\arearec\src\AreaRec.Core\obj\Release\net8.0\AreaRec.Core.AssemblyInfo.cs
+C:\Users\VersusPc\Documents\Playground\arearec\src\AreaRec.Core\obj\Release\net8.0\AreaRec.Core.csproj.CoreCompileInputs.cache
+C:\Users\VersusPc\Documents\Playground\arearec\src\AreaRec.Core\obj\Release\net8.0\AreaRec.Core.sourcelink.json
+C:\Users\VersusPc\Documents\Playground\arearec\src\AreaRec.Core\obj\Release\net8.0\AreaRec.Core.dll
+C:\Users\VersusPc\Documents\Playground\arearec\src\AreaRec.Core\obj\Release\net8.0\refint\AreaRec.Core.dll
+C:\Users\VersusPc\Documents\Playground\arearec\src\AreaRec.Core\obj\Release\net8.0\AreaRec.Core.pdb
+C:\Users\VersusPc\Documents\Playground\arearec\src\AreaRec.Core\obj\Release\net8.0\ref\AreaRec.Core.dll

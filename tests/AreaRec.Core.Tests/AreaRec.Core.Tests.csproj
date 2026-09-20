@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>AreaRec.Core.Tests</AssemblyName>
+    <RootNamespace>AreaRec.Core.Tests</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\AreaRec.Core\AreaRec.Core.csproj" />
+  </ItemGroup>
+</Project>

@@ -11,16 +11,16 @@
 
 ## v0.2 — Practical polish
 
-- [ ] Global start/stop shortcut
-- [ ] Remember last output directory
-- [ ] Better high-DPI handling
+- [x] Global start/stop shortcut
+- [x] Remember last output directory
+- [x] Per-monitor DPI-aware physical selector (hardware verification pending)
 - [ ] Optional visible capture border
 
 ## Later, only if justified
 
-- [ ] System audio
+- [x] Optional system-audio muxing seam (WASAPI loopback → Media Foundation AAC; UI exposure pending)
 - [ ] Microphone
-- [ ] Advanced multi-monitor selection
-- [ ] Hardware encoding
+- [x] Multi-monitor compositor (runtime verification pending)
+- [x] Hardware-transform request and effective hardware MFT verification
 
 AreaRec will not become a video editor or OBS replacement.

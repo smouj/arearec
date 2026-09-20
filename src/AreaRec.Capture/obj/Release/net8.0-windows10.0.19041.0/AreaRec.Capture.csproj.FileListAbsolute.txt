@@ -1,0 +1,16 @@
+C:\Users\VersusPc\Documents\Playground\arearec\src\AreaRec.Capture\obj\Release\net8.0-windows10.0.19041.0\AreaRec.Capture.csproj.AssemblyReference.cache
+C:\Users\VersusPc\Documents\Playground\arearec\src\AreaRec.Capture\bin\Release\net8.0-windows10.0.19041.0\AreaRec.Capture.deps.json
+C:\Users\VersusPc\Documents\Playground\arearec\src\AreaRec.Capture\bin\Release\net8.0-windows10.0.19041.0\AreaRec.Capture.dll
+C:\Users\VersusPc\Documents\Playground\arearec\src\AreaRec.Capture\bin\Release\net8.0-windows10.0.19041.0\AreaRec.Capture.pdb
+C:\Users\VersusPc\Documents\Playground\arearec\src\AreaRec.Capture\bin\Release\net8.0-windows10.0.19041.0\AreaRec.Core.dll
+C:\Users\VersusPc\Documents\Playground\arearec\src\AreaRec.Capture\bin\Release\net8.0-windows10.0.19041.0\AreaRec.Core.pdb
+C:\Users\VersusPc\Documents\Playground\arearec\src\AreaRec.Capture\obj\Release\net8.0-windows10.0.19041.0\AreaRec.Capture.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\VersusPc\Documents\Playground\arearec\src\AreaRec.Capture\obj\Release\net8.0-windows10.0.19041.0\AreaRec.Capture.AssemblyInfoInputs.cache
+C:\Users\VersusPc\Documents\Playground\arearec\src\AreaRec.Capture\obj\Release\net8.0-windows10.0.19041.0\AreaRec.Capture.AssemblyInfo.cs
+C:\Users\VersusPc\Documents\Playground\arearec\src\AreaRec.Capture\obj\Release\net8.0-windows10.0.19041.0\AreaRec.Capture.csproj.CoreCompileInputs.cache
+C:\Users\VersusPc\Documents\Playground\arearec\src\AreaRec.Capture\obj\Release\net8.0-windows10.0.19041.0\AreaRec.Capture.sourcelink.json
+C:\Users\VersusPc\Documents\Playground\arearec\src\AreaRec.Capture\obj\Release\net8.0-windows10.0.19041.0\AreaRec..DF736996.Up2Date
+C:\Users\VersusPc\Documents\Playground\arearec\src\AreaRec.Capture\obj\Release\net8.0-windows10.0.19041.0\AreaRec.Capture.dll
+C:\Users\VersusPc\Documents\Playground\arearec\src\AreaRec.Capture\obj\Release\net8.0-windows10.0.19041.0\refint\AreaRec.Capture.dll
+C:\Users\VersusPc\Documents\Playground\arearec\src\AreaRec.Capture\obj\Release\net8.0-windows10.0.19041.0\AreaRec.Capture.pdb
+C:\Users\VersusPc\Documents\Playground\arearec\src\AreaRec.Capture\obj\Release\net8.0-windows10.0.19041.0\ref\AreaRec.Capture.dll

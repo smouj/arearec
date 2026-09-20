@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>AreaRec.Platform.Windows</AssemblyName>
+    <RootNamespace>AreaRec.Platform.Windows</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AreaRec.Core\AreaRec.Core.csproj" />
+  </ItemGroup>
+</Project>

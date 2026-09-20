@@ -1,0 +1,280 @@
+{
+  "version": 3,
+  "targets": {
+    "net8.0-windows10.0.19041": {
+      "AreaRec.Capture/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "AreaRec.Core": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/AreaRec.Capture.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/AreaRec.Capture.dll": {}
+        }
+      },
+      "AreaRec.Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "compile": {
+          "bin/placeholder/AreaRec.Core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/AreaRec.Core.dll": {}
+        }
+      },
+      "AreaRec.Graphics/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "AreaRec.Core": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/AreaRec.Graphics.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/AreaRec.Graphics.dll": {}
+        }
+      },
+      "AreaRec.Media/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "AreaRec.Core": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/AreaRec.Media.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/AreaRec.Media.dll": {}
+        }
+      },
+      "AreaRec.Platform.Windows/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "AreaRec.Core": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/AreaRec.Platform.Windows.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/AreaRec.Platform.Windows.dll": {}
+        }
+      }
+    },
+    "net8.0-windows10.0.19041/win-x64": {
+      "AreaRec.Capture/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "AreaRec.Core": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/AreaRec.Capture.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/AreaRec.Capture.dll": {}
+        }
+      },
+      "AreaRec.Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "compile": {
+          "bin/placeholder/AreaRec.Core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/AreaRec.Core.dll": {}
+        }
+      },
+      "AreaRec.Graphics/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "AreaRec.Core": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/AreaRec.Graphics.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/AreaRec.Graphics.dll": {}
+        }
+      },
+      "AreaRec.Media/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "AreaRec.Core": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/AreaRec.Media.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/AreaRec.Media.dll": {}
+        }
+      },
+      "AreaRec.Platform.Windows/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "AreaRec.Core": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/AreaRec.Platform.Windows.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/AreaRec.Platform.Windows.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "AreaRec.Capture/1.0.0": {
+      "type": "project",
+      "path": "../../src/AreaRec.Capture/AreaRec.Capture.csproj",
+      "msbuildProject": "../../src/AreaRec.Capture/AreaRec.Capture.csproj"
+    },
+    "AreaRec.Core/1.0.0": {
+      "type": "project",
+      "path": "../../src/AreaRec.Core/AreaRec.Core.csproj",
+      "msbuildProject": "../../src/AreaRec.Core/AreaRec.Core.csproj"
+    },
+    "AreaRec.Graphics/1.0.0": {
+      "type": "project",
+      "path": "../../src/AreaRec.Graphics/AreaRec.Graphics.csproj",
+      "msbuildProject": "../../src/AreaRec.Graphics/AreaRec.Graphics.csproj"
+    },
+    "AreaRec.Media/1.0.0": {
+      "type": "project",
+      "path": "../../src/AreaRec.Media/AreaRec.Media.csproj",
+      "msbuildProject": "../../src/AreaRec.Media/AreaRec.Media.csproj"
+    },
+    "AreaRec.Platform.Windows/1.0.0": {
+      "type": "project",
+      "path": "../../src/AreaRec.Platform.Windows/AreaRec.Platform.Windows.csproj",
+      "msbuildProject": "../../src/AreaRec.Platform.Windows/AreaRec.Platform.Windows.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net8.0-windows10.0.19041": [
+      "AreaRec.Capture >= 1.0.0",
+      "AreaRec.Core >= 1.0.0",
+      "AreaRec.Graphics >= 1.0.0",
+      "AreaRec.Media >= 1.0.0",
+      "AreaRec.Platform.Windows >= 1.0.0"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\VersusPc\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "C:\\Users\\VersusPc\\Documents\\Playground\\arearec\\tests\\AreaRec.EndToEnd.Smoke\\AreaRec.EndToEnd.Smoke.csproj",
+      "projectName": "AreaRec.EndToEnd.Smoke",
+      "projectPath": "C:\\Users\\VersusPc\\Documents\\Playground\\arearec\\tests\\AreaRec.EndToEnd.Smoke\\AreaRec.EndToEnd.Smoke.csproj",
+      "packagesPath": "C:\\Users\\VersusPc\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\VersusPc\\Documents\\Playground\\arearec\\tests\\AreaRec.EndToEnd.Smoke\\obj\\",
+      "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
+      "configFilePaths": [
+        "C:\\Users\\VersusPc\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "net8.0-windows10.0.19041.0"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net8.0-windows10.0.19041": {
+          "targetAlias": "net8.0-windows10.0.19041.0",
+          "projectReferences": {
+            "C:\\Users\\VersusPc\\Documents\\Playground\\arearec\\src\\AreaRec.Capture\\AreaRec.Capture.csproj": {
+              "projectPath": "C:\\Users\\VersusPc\\Documents\\Playground\\arearec\\src\\AreaRec.Capture\\AreaRec.Capture.csproj"
+            },
+            "C:\\Users\\VersusPc\\Documents\\Playground\\arearec\\src\\AreaRec.Core\\AreaRec.Core.csproj": {
+              "projectPath": "C:\\Users\\VersusPc\\Documents\\Playground\\arearec\\src\\AreaRec.Core\\AreaRec.Core.csproj"
+            },
+            "C:\\Users\\VersusPc\\Documents\\Playground\\arearec\\src\\AreaRec.Graphics\\AreaRec.Graphics.csproj": {
+              "projectPath": "C:\\Users\\VersusPc\\Documents\\Playground\\arearec\\src\\AreaRec.Graphics\\AreaRec.Graphics.csproj"
+            },
+            "C:\\Users\\VersusPc\\Documents\\Playground\\arearec\\src\\AreaRec.Media\\AreaRec.Media.csproj": {
+              "projectPath": "C:\\Users\\VersusPc\\Documents\\Playground\\arearec\\src\\AreaRec.Media\\AreaRec.Media.csproj"
+            },
+            "C:\\Users\\VersusPc\\Documents\\Playground\\arearec\\src\\AreaRec.Platform.Windows\\AreaRec.Platform.Windows.csproj": {
+              "projectPath": "C:\\Users\\VersusPc\\Documents\\Playground\\arearec\\src\\AreaRec.Platform.Windows\\AreaRec.Platform.Windows.csproj"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "allWarningsAsErrors": true,
+        "warnAsError": [
+          "NU1605"
+        ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
+      }
+    },
+    "frameworks": {
+      "net8.0-windows10.0.19041": {
+        "targetAlias": "net8.0-windows10.0.19041.0",
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48",
+          "net481"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Runtime.win-x64",
+            "version": "[8.0.31, 8.0.31]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Runtime.win-x64",
+            "version": "[8.0.31, 8.0.31]"
+          },
+          {
+            "name": "Microsoft.Windows.SDK.NET.Ref",
+            "version": "[10.0.19041.56, 10.0.19041.56]"
+          },
+          {
+            "name": "Microsoft.WindowsDesktop.App.Runtime.win-x64",
+            "version": "[8.0.31, 8.0.31]"
+          }
+        ],
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          },
+          "Microsoft.Windows.SDK.NET.Ref": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.425/PortableRuntimeIdentifierGraph.json"
+      }
+    },
+    "runtimes": {
+      "win-x64": {
+        "#import": []
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>AreaRec.EndToEnd.Smoke</AssemblyName>
+    <RootNamespace>AreaRec.EndToEnd.Smoke</RootNamespace>
+    <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\AreaRec.Core\AreaRec.Core.csproj" />
+    <ProjectReference Include="..\..\src\AreaRec.Capture\AreaRec.Capture.csproj" />
+    <ProjectReference Include="..\..\src\AreaRec.Graphics\AreaRec.Graphics.csproj" />
+    <ProjectReference Include="..\..\src\AreaRec.Media\AreaRec.Media.csproj" />
+    <ProjectReference Include="..\..\src\AreaRec.Platform.Windows\AreaRec.Platform.Windows.csproj" />
+  </ItemGroup>
+</Project>

@@ -3,7 +3,8 @@
 ## Why
 
 ## Verification
-- [ ] `python -m pytest`
+- [ ] `dotnet build AreaRec.sln --configuration Release`
+- [ ] Relevant native smoke tests from `docs/RELEASE.md`
 - [ ] Tested on Windows
 - [ ] No network dependency introduced
 - [ ] Scope remains consistent with `AGENTS.md`

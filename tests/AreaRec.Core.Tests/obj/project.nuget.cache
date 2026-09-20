@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "IOEycAEeKzI=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\VersusPc\\Documents\\Playground\\arearec\\tests\\AreaRec.Core.Tests\\AreaRec.Core.Tests.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\VersusPc\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\8.0.31\\microsoft.netcore.app.runtime.win-x64.8.0.31.nupkg.sha512",
+    "C:\\Users\\VersusPc\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\8.0.31\\microsoft.windowsdesktop.app.runtime.win-x64.8.0.31.nupkg.sha512",
+    "C:\\Users\\VersusPc\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\8.0.31\\microsoft.aspnetcore.app.runtime.win-x64.8.0.31.nupkg.sha512"
+  ],
+  "logs": []
+}

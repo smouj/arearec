@@ -1,0 +1,50 @@
+name: Native CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  native:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+      - name: Restore
+        run: dotnet restore AreaRec.sln --runtime win-x64
+      - name: Build
+        run: dotnet build AreaRec.sln --configuration Release --no-restore
+      - name: Format and analyzer checks
+        run: dotnet format AreaRec.sln --verify-no-changes --no-restore
+      - name: Native dependency guard
+        shell: pwsh
+        run: |
+          $nativeProjects = @('src/AreaRec.App', 'src/AreaRec.Core', 'src/AreaRec.Capture', 'src/AreaRec.Graphics', 'src/AreaRec.Media', 'src/AreaRec.Platform.Windows')
+          $matches = rg --glob '*.cs' --no-heading --line-number --ignore-case 'ffmpeg|ffmpeg\.exe|python|ProcessStartInfo|Process\.Start|HttpClient|WebClient|Socket|TcpClient|UdpClient|NetworkStream' $nativeProjects
+          if ($LASTEXITCODE -eq 0) {
+            Write-Error "Forbidden runtime dependency found in native sources:`n$matches"
+            exit 1
+          }
+          if ($LASTEXITCODE -gt 1) { exit $LASTEXITCODE }
+      - name: Legacy runtime guard
+        shell: pwsh
+        run: |
+          $legacyFiles = rg --files -g '*.py' -g '*.pyc' -g 'pyproject.toml' -g 'bin/*.exe'
+          if ($LASTEXITCODE -eq 0) {
+            Write-Error "Legacy Python/FFmpeg artifacts found:`n$legacyFiles"
+            exit 1
+          }
+          if ($LASTEXITCODE -gt 1) { exit $LASTEXITCODE }
+      - name: Core tests
+        run: dotnet run --project tests/AreaRec.Core.Tests/AreaRec.Core.Tests.csproj --configuration Release --no-build
+      - name: Media Foundation smoke
+        run: dotnet run --project tests/AreaRec.Media.Smoke/AreaRec.Media.Smoke.csproj --configuration Release --no-build -- playback
+      - name: Media Foundation audio/video smoke
+        run: dotnet run --project tests/AreaRec.Media.Smoke/AreaRec.Media.Smoke.csproj --configuration Release --no-build -- audio-mp4
+      - name: Media Foundation abort cleanup smoke
+        run: dotnet run --project tests/AreaRec.Media.Smoke/AreaRec.Media.Smoke.csproj --configuration Release --no-build -- abort
+      - name: Publish portable package
+        shell: pwsh
+        run: ./PUBLISH_PORTABLE.ps1
