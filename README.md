@@ -56,6 +56,12 @@ Create a self-contained portable build:
 
 The script creates `artifacts/AreaRec-win-x64.zip` and a SHA-256 sidecar.
 
+Para instalar el paquete portátil con accesos directos, extrae el ZIP y ejecuta
+`INSTALL_PORTABLE.ps1` desde esa carpeta. Instala AreaRec en
+`%LOCALAPPDATA%\Programs\AreaRec`, crea el acceso directo del escritorio y añade
+una entrada en el menú Inicio. Usa `-NoDesktopShortcut` si solo quieres la
+entrada del menú Inicio.
+
 ## Design constraints
 
 AreaRec intentionally does not expose system audio, microphone recording, video

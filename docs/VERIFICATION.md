@@ -30,9 +30,9 @@ required hardware, remote runner or visual acceptance evidence was not available
 | Robustness matrix | Small/fullscreen/off-screen regions, physical compositor offsets and cancellation are covered in code/tests; the requested 1920×1080, 2560×1440, 3840×2160 × 30/60 FPS × 100–200% DPI × 1/2-monitor matrix, disk-full and unwritable-path runs are not all available on this host | **NOT VERIFIED** as a complete matrix |
 | Settings | Versioned JSON (`Version=1`) with temporary sibling and replacement | PASS locally |
 | Audio | WASAPI loopback smoke: 48 kHz, 2 channels, 32-bit, 3 chunks / 11,520 bytes; WGC + WASAPI + RecordingSession E2E (`22` decoded frames, AAC track); microphone fallback enumeration reaches active-device selection | Loopback/mixing/resampling/session/A-V mux PASS locally; no active microphone endpoint on this host, so microphone capture remains **NOT VERIFIED** |
-| Self-contained x64 publish | `PUBLISH_PORTABLE.ps1` produced a 78,897,710-byte ZIP with `AreaRec.exe`, `hostfxr.dll`, and matching SHA-256 (`4faefca90d2134d2929627f6e736212c66ab86df46f95c75d4d7307def715afe`); payload guards and packaged UI smoke pass | PASS locally |
+| Self-contained x64 publish | `PUBLISH_PORTABLE.ps1` produced a 76,408,312-byte ZIP with `AreaRec.exe`, `hostfxr.dll`, `INSTALL_PORTABLE.ps1`, embedded AreaRec icon and matching SHA-256 (`660509a406ac75939671327d690ed1ac3278d678c7391127b4753cc7d7058983`); payload guards, icon extraction and packaged UI smoke pass | PASS locally |
 | CI | `.github/workflows/native-ci.yml` covers restore, build, format, dependency guard, tests and publish | Remote GitHub check **NOT VERIFIED** |
 | Performance | Local package UI smoke observed startup-to-window `487–905 ms`, idle CPU `0.0–0.8%`, working set `50–51 MB`; synthetic MF sink measurements cover 640×360, 1080p, 1440p and 4K | CPU/memory and encoder/conversion measurements PASS; `<300 ms` startup, sustained capture/GPU engine/multi-monitor targets **NOT VERIFIED** |
 
-The native product path is now the only supported runtime. Installer/MSIX, tray
+The native product path is now the only supported runtime. MSIX packaging, tray
 visual acceptance and additional hardware matrix coverage remain follow-up work.

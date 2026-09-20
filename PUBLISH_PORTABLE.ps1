@@ -39,7 +39,10 @@ if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
     --output $packageDirectory
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
-$requiredFiles = @("AreaRec.exe", "hostfxr.dll")
+Copy-Item -LiteralPath (Join-Path $repoRoot "INSTALL_PORTABLE.ps1") `
+    -Destination (Join-Path $packageDirectory "INSTALL_PORTABLE.ps1") -Force
+
+$requiredFiles = @("AreaRec.exe", "hostfxr.dll", "INSTALL_PORTABLE.ps1")
 foreach ($requiredFile in $requiredFiles) {
     $requiredPath = Join-Path $packageDirectory $requiredFile
     if (-not (Test-Path -LiteralPath $requiredPath -PathType Leaf)) {

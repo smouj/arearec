@@ -6,3 +6,4 @@
 - Native Windows Graphics Capture/DXGI capture pipeline and Media Foundation MP4 output.
 - 30/60 FPS and cursor controls.
 - MP4 output.
+- Branded executable icon plus portable installation script with Desktop and Start menu shortcuts.

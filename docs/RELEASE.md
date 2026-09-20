@@ -40,6 +40,12 @@ contents or the complete output directory. The app uses Windows Graphics Capture
 with a DXGI fallback, Direct3D 11, Media Foundation and local settings under
 `%LOCALAPPDATA%\AreaRec`. No network service or external encoder is required.
 
+The package includes `INSTALL_PORTABLE.ps1`. Run it from the extracted package
+to install AreaRec under `%LOCALAPPDATA%\Programs\AreaRec` and create the
+desktop and Start menu shortcuts. The executable carries the AreaRec icon, so
+the shortcuts remain branded after installation. Pass `-NoDesktopShortcut` to
+omit only the desktop shortcut.
+
 An installer/MSIX package and manual UI acceptance matrix remain **NOT
 VERIFIED**.
 

@@ -115,7 +115,7 @@ internal sealed class MainForm : Form
         _tray = new NotifyIcon
         {
             ContextMenuStrip = trayMenu,
-            Icon = SystemIcons.Application,
+            Icon = LoadApplicationIcon(),
             Text = "AreaRec",
             Visible = true,
         };
@@ -132,6 +132,18 @@ internal sealed class MainForm : Form
             _tray.Dispose();
             _recordingTimer.Dispose();
         };
+    }
+
+    private static Icon LoadApplicationIcon()
+    {
+        try
+        {
+            return Icon.ExtractAssociatedIcon(Application.ExecutablePath) ?? SystemIcons.Application;
+        }
+        catch (ArgumentException)
+        {
+            return SystemIcons.Application;
+        }
     }
 
     protected override void OnFormClosing(FormClosingEventArgs e)

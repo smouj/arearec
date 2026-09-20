@@ -56,7 +56,7 @@ license remains MIT.
 
 - Fresh local clone: restore, Release build with 0 warnings/errors and
   `dotnet format --verify-no-changes`.
-- 16 deterministic Core tests, including physical layout, off-screen offsets,
+- 17 deterministic Core tests, including physical layout, off-screen offsets,
   session lifecycle, pacing, audio clock, mixer/resampler and invalid quality.
 - Media Foundation H.264/MP4 playback, AAC+H.264 mux, hardware transform probe
   and abort cleanup.
@@ -74,8 +74,9 @@ license remains MIT.
 - Cursor ON/OFF saved MP4 pixel probe: decoded NV12 differences observed.
 - WASAPI loopback + video + AAC E2E: video and audio tracks present and
   decodable.
-- Self-contained x64 package: `AreaRec.exe` and `hostfxr.dll` present; latest
-  package hash and size are recorded in `docs/VERIFICATION.md`.
+- Self-contained x64 package: `AreaRec.exe`, `hostfxr.dll` and the portable
+  installer script present; the executable icon extracts successfully and the
+  latest package hash and size are recorded in `docs/VERIFICATION.md`.
 
 ## 7. Performance measurements
 
@@ -101,7 +102,7 @@ endpoint.
 - Complete 30/60 FPS × 1920×1080/2560×1440/3840×2160 × 100–200% DPI ×
   1/2-monitor performance matrix, GPU engine utilization, disk-full and
   unwritable-path runs.
-- Installer/MSIX and tray visual acceptance on multiple Windows configurations.
+- MSIX packaging and tray visual acceptance on multiple Windows configurations.
 
 ## 10. Next concrete milestone
 
