@@ -1,9 +1,0 @@
-C:\Users\VersusPc\Documents\Playground\arearec\artifacts\native-publish\AreaRec.exe
-C:\Users\VersusPc\Documents\Playground\arearec\artifacts\native-publish\AreaRec.dll
-C:\Users\VersusPc\Documents\Playground\arearec\artifacts\native-publish\AreaRec.deps.json
-C:\Users\VersusPc\Documents\Playground\arearec\artifacts\native-publish\AreaRec.runtimeconfig.json
-C:\Users\VersusPc\Documents\Playground\arearec\artifacts\native-publish\AreaRec.pdb
-C:\Users\VersusPc\Documents\Playground\arearec\artifacts\native-publish\AreaRec.Core.dll
-C:\Users\VersusPc\Documents\Playground\arearec\artifacts\native-publish\AreaRec.Platform.Windows.dll
-C:\Users\VersusPc\Documents\Playground\arearec\artifacts\native-publish\AreaRec.Core.pdb
-C:\Users\VersusPc\Documents\Playground\arearec\artifacts\native-publish\AreaRec.Platform.Windows.pdb

@@ -2,3 +2,5 @@ dist/
 build/
 artifacts/
 recordings/*.mp4
+**/bin/
+**/obj/
