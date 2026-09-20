@@ -1,7 +1,7 @@
 # Capture pipeline
 
-This document defines the native pipeline boundary. It is intentionally more
-precise than the current M1 skeleton; implementation claims are only made when
+This document defines the native pipeline boundary. Implementation claims are
+only made when
 the corresponding phase has been built and run on Windows.
 
 ## Target frame flow

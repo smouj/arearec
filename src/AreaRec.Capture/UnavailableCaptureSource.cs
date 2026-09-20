@@ -10,7 +10,7 @@ public sealed class UnavailableCaptureSource : ICaptureSource
     {
         settings.Validate();
         throw new PlatformNotSupportedException(
-            "No capture backend is registered. Windows Graphics Capture is implemented in the Windows platform project in a later migration phase.");
+            "No Windows capture backend is available for the current platform or display session.");
     }
 
     public async IAsyncEnumerable<CapturedFrame> CaptureAsync(
