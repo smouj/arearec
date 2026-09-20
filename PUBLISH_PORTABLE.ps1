@@ -39,6 +39,23 @@ if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
     --output $packageDirectory
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
+$requiredFiles = @("AreaRec.exe", "hostfxr.dll")
+foreach ($requiredFile in $requiredFiles) {
+    $requiredPath = Join-Path $packageDirectory $requiredFile
+    if (-not (Test-Path -LiteralPath $requiredPath -PathType Leaf)) {
+        throw "The self-contained publish is missing required payload file '$requiredFile'."
+    }
+}
+
+$forbiddenPayload = @(Get-ChildItem -LiteralPath $packageDirectory -Recurse -File | Where-Object {
+    $_.Name -match '^(ffmpeg(\.exe)?|python(\.exe)?)(\.dll)?$' -or
+    $_.Extension -in @('.py', '.pyc')
+})
+if ($forbiddenPayload.Count -gt 0) {
+    $names = $forbiddenPayload.FullName -join [Environment]::NewLine
+    throw "The portable payload contains a retired runtime artifact:`n$names"
+}
+
 Compress-Archive -Path (Join-Path $packageDirectory "*") -DestinationPath $zipPath -CompressionLevel Optimal
 $hash = (Get-FileHash -LiteralPath $zipPath -Algorithm SHA256).Hash.ToLowerInvariant()
 "$hash  $PackageName.zip" | Set-Content -LiteralPath $hashPath -Encoding ASCII

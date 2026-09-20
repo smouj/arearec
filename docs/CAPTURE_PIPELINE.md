@@ -76,6 +76,15 @@ silently producing a recording without cursor pixels. A local WGC readback
 probe observed differing BGRA bytes, and the saved cursor OFF/ON MP4 probe
 observed 466 differing decoded NV12 bytes after H.264 encoding.
 
+The initial quality profiles map to explicit bitrate estimates using bits per
+pixel per frame, clamped to a safe 2–50 Mbps range:
+
+| Quality | Bits per pixel per frame |
+| --- | ---: |
+| Balanced | 0.08 |
+| High | 0.12 |
+| Very High | 0.18 |
+
 Pending and **NOT VERIFIED**: a zero-copy GPU encoder path, performance targets,
 and full
 multi-monitor/mixed-DPI runtime verification. The local MP4 inspector

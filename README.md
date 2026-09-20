@@ -58,9 +58,11 @@ The script creates `artifacts/AreaRec-win-x64.zip` and a SHA-256 sidecar.
 
 ## Design constraints
 
-AreaRec intentionally does not include system audio, microphone recording, video
-editing, webcam or annotations. Multi-monitor composition is implemented but
-still requires runtime verification on mixed-DPI hardware. See
+AreaRec intentionally does not expose system audio, microphone recording, video
+editing, webcam or annotations in the current product UI. The native audio
+contracts and local WASAPI/Media Foundation path are kept ready for a future
+product decision. Multi-monitor composition is implemented but still requires
+runtime verification on mixed-DPI hardware. See
 [docs/NATIVE_MIGRATION.md](docs/NATIVE_MIGRATION.md) and
 [docs/VERIFICATION.md](docs/VERIFICATION.md) for migration status and evidence.
 

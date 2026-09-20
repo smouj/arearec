@@ -11,6 +11,7 @@ internal static class Program
         {
             ("normalizes direction and H.264 dimensions", RegionNormalizes),
             ("intersects physical monitor regions", RegionIntersects),
+            ("intersects regions without coordinate overflow", RegionIntersectionAvoidsOverflow),
             ("partitions physical regions across monitor boundaries", RegionLayoutPartitions),
             ("preserves offsets for partially off-screen regions", RegionLayoutPreservesOffscreenOffset),
             ("accepts configured frame rates", SettingsValidate),
@@ -63,6 +64,17 @@ internal static class Program
         var intersection = selected.Intersection(monitor);
         Assert(intersection == new PhysicalRegion(-100, 50, 50, 200), "negative-coordinate intersection mismatch");
         Assert(!selected.Intersection(new PhysicalRegion(500, 0, 100, 100)).HasValue, "disjoint regions intersected");
+    }
+
+    private static void RegionIntersectionAvoidsOverflow()
+    {
+        var nearRightEdge = new PhysicalRegion(int.MaxValue - 100, 10, 100, 100);
+        var crossingEdge = new PhysicalRegion(int.MaxValue - 50, 50, 100, 100);
+        var intersection = nearRightEdge.Intersection(crossingEdge);
+
+        Assert(
+            intersection == new PhysicalRegion(int.MaxValue - 50, 50, 50, 60),
+            "physical edge arithmetic overflowed while intersecting regions");
     }
 
     private static void RegionLayoutPartitions()

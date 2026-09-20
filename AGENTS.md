@@ -1,15 +1,40 @@
-# Agent instructions
+# AreaRec repository guidance
 
-## Product contract
-AreaRec does one thing: select a rectangle and record it to MP4.
+AreaRec is a Windows-native .NET 8 screen recorder. The supported product path
+is the solution in `AreaRec.sln`; the former Python/FFmpeg implementation is
+historical documentation only.
 
-## v0.1 freeze
-Do not add audio, webcam, editing, accounts, cloud, telemetry, updater, database, web server, Electron or Tauri during v0.1 work.
+## Architecture boundaries
 
-## Engineering rules
-- Treat the native .NET solution as the only product path.
-- Do not add FFmpeg, Python, external encoder processes, network services or runtime telemetry to the native path.
-- Keep process invocation isolated from UI code where practical; native recording must not invoke a child process.
-- Never silently upload or transmit captures.
-- Prefer fixes that reduce code and dependencies.
-- Run `dotnet build AreaRec.sln --configuration Release` and the relevant native smoke tests before merging.
+- Keep UI orchestration in `src/AreaRec.App`.
+- Keep platform-independent contracts, geometry, timing and lifecycle logic in
+  `src/AreaRec.Core`.
+- Keep WGC and DXGI capture backends in `src/AreaRec.Capture`.
+- Keep D3D11 resource processing in `src/AreaRec.Graphics`.
+- Keep Media Foundation encoding, MP4 finalization and playback validation in
+  `src/AreaRec.Media`.
+- Keep Win32, WinRT, DPI and WASAPI interop in
+  `src/AreaRec.Platform.Windows`.
+
+Do not add an external encoder, subprocess, network service, telemetry, cloud
+dependency or third-party runtime. Do not reintroduce Python, FFmpeg, Electron
+or a second recording implementation.
+
+## Verification
+
+Use the x64 .NET SDK on Windows where possible:
+
+```powershell
+dotnet restore AreaRec.sln --runtime win-x64
+dotnet build AreaRec.sln --configuration Release --no-restore
+dotnet format AreaRec.sln --verify-no-changes --no-restore
+dotnet run --project tests/AreaRec.Core.Tests/AreaRec.Core.Tests.csproj --configuration Release --no-build
+```
+
+The runtime and end-to-end smoke tests in `docs/RELEASE.md` require an
+interactive Windows desktop. Record hardware-dependent gaps as `NOT VERIFIED`;
+never infer runtime correctness from compilation alone.
+
+Generated `bin/`, `obj/`, `artifacts/` and recordings are ignored. Preserve
+atomic output finalization, explicit disposal of COM/D3D resources, and
+CancellationToken-aware operations.

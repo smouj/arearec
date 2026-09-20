@@ -32,7 +32,7 @@ These are smoke measurements, not release targets. Captured on 2026-09-20:
 - Intel Core i7-6700 (4 cores / 8 logical processors); NVIDIA GeForce GTX 1060
   6 GB, driver 32.0.15.8157.
 - Self-contained package UI smoke: observed process startup to main window
-  ranged from `487–699 ms`, idle CPU from `0.0–0.8%`, and idle working set from
+  ranged from `487–905 ms`, idle CPU from `0.0–0.8%`, and idle working set from
   `50–51 MB` after one-second idle samples. The `<300 ms` startup aspiration
   was not met; the CPU and memory measurements are within the documented
   guidance.
@@ -40,12 +40,14 @@ These are smoke measurements, not release targets. Captured on 2026-09-20:
   `preferHardware=true` (hardware H.264 MFT enumeration found
   `NVIDIA H.264 Encoder MFT`; the Media Foundation smoke now selects that
   transform with `hardware=True` after the BGRA→NV12 conversion).
-- 30 FPS: 22 encoded/decoded frames, 20 duplicated and 2 dropped, MP4 track
-  733 ms, wall 1447 ms, process CPU 5.8%, working set 89 MB. This run used
-  Source Reader playback validation and selected the NVIDIA H.264 Encoder MFT.
-- 60 FPS: 44 encoded/decoded frames, 41 duplicated and 1 dropped, MP4 track
-  733 ms, wall 1474 ms, process CPU 7.7%, working set 89 MB. This run also used
-  Source Reader playback validation and selected the NVIDIA H.264 Encoder MFT.
+- Latest 30 FPS run: 23 encoded/decoded frames, 20 duplicated and 1 dropped,
+  capture `776 ms`, MP4 track `767 ms`, wall `1459 ms`, process CPU `7.2%`,
+  working set `89 MB`. This run used Source Reader playback validation and
+  selected the NVIDIA H.264 Encoder MFT.
+- Latest 60 FPS run: 44 encoded/decoded frames, 43 duplicated and 1 dropped,
+  capture `863 ms`, MP4 track `733 ms`, wall `1491 ms`, process CPU `6.4%`,
+  working set `89 MB`. This run also used Source Reader playback validation and
+  selected the NVIDIA H.264 Encoder MFT.
 - Cursor enabled at 30 FPS: 22 encoded/decoded frames, 16 duplicated and 1
   dropped, MP4 track 733 ms, wall 1514 ms, process CPU 6.2%, working set 90 MB.
 

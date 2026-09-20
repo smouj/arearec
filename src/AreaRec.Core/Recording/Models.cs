@@ -13,12 +13,20 @@ public readonly record struct PhysicalRegion(int X, int Y, int Width, int Height
 
     public PhysicalRegion? Intersection(PhysicalRegion other)
     {
-        var left = Math.Max(X, other.X);
-        var top = Math.Max(Y, other.Y);
-        var right = Math.Min(X + Width, other.X + other.Width);
-        var bottom = Math.Min(Y + Height, other.Y + other.Height);
+        // Keep the edge arithmetic in 64 bits. Virtual-screen coordinates are
+        // physical pixels and can be negative; using int addition here can
+        // wrap at the edge of the coordinate range and report a false
+        // disjoint/overlapping result.
+        var left = Math.Max((long)X, other.X);
+        var top = Math.Max((long)Y, other.Y);
+        var right = Math.Min((long)X + Width, (long)other.X + other.Width);
+        var bottom = Math.Min((long)Y + Height, (long)other.Y + other.Height);
         return right > left && bottom > top
-            ? new PhysicalRegion(left, top, right - left, bottom - top)
+            ? new PhysicalRegion(
+                checked((int)left),
+                checked((int)top),
+                checked((int)(right - left)),
+                checked((int)(bottom - top)))
             : null;
     }
 
@@ -30,9 +38,11 @@ public readonly record struct PhysicalRegion(int X, int Y, int Width, int Height
 
     public static PhysicalRegion FromPoints(int x1, int y1, int x2, int y2)
     {
-        var left = Math.Min(x1, x2);
-        var top = Math.Min(y1, y2);
-        return new PhysicalRegion(left, top, Math.Abs(x2 - x1), Math.Abs(y2 - y1))
+        var left = Math.Min((long)x1, x2);
+        var top = Math.Min((long)y1, y2);
+        var width = checked((int)(Math.Max((long)x1, x2) - left));
+        var height = checked((int)(Math.Max((long)y1, y2) - top));
+        return new PhysicalRegion(checked((int)left), checked((int)top), width, height)
             .NormalizeForH264();
     }
 

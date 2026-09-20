@@ -34,7 +34,9 @@ locally when that environment is available and are recorded as
 ```
 
 The script produces `artifacts/AreaRec-win-x64.zip` and a companion SHA-256
-file. Distribute the ZIP contents or the complete output directory. The app uses Windows Graphics Capture
+file. It also checks that the self-contained payload contains `AreaRec.exe` and
+`hostfxr.dll` and rejects retired Python/FFmpeg artifacts. Distribute the ZIP
+contents or the complete output directory. The app uses Windows Graphics Capture
 with a DXGI fallback, Direct3D 11, Media Foundation and local settings under
 `%LOCALAPPDATA%\AreaRec`. No network service or external encoder is required.
 
