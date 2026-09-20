@@ -171,10 +171,9 @@ M0 audit: **COMPLETE**.
 M1 native skeleton: **COMPLETE**.  
 M2 region selector: **IMPLEMENTED**, with build/test evidence pending on actual
 multi-monitor and mixed-DPI hardware.  
-M3 capture backends: **IMPLEMENTED**. WGC has a local runtime smoke PASS with
-three real frames at `1360×768`; the DXGI COM path builds and starts, but the
-current idle desktop did not deliver an initial `AcquireNextFrame`, so DXGI
-runtime delivery is **NOT VERIFIED** in this environment. A multi-monitor
+M3 capture backends: **IMPLEMENTED**. WGC and DXGI each have a local runtime
+smoke PASS with three real frames at `1360×768`; the latest DXGI trace reports
+successful `AcquireNextFrame` calls after a controlled visible pulse. A multi-monitor
 compositor now captures one backend per intersecting display and composes the
 selected intersections; multi-monitor and mixed-DPI runtime behavior remain
 **NOT VERIFIED**.  

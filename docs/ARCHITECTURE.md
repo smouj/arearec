@@ -56,8 +56,8 @@ paths. No project may start an encoder process or hide one behind another API.
 
 ## Current status
 
-M1 is complete and M3 WGC capture has a local runtime smoke pass; DXGI fallback
-runtime delivery remains **NOT VERIFIED** on the current idle desktop. M4 timing and
+M1 is complete and M3 WGC capture plus the DXGI fallback have local runtime
+smoke passes on the current desktop. M4 timing and
 session accounting are covered by deterministic core tests. The Media Foundation
 sink is implemented and has a synthetic BGRA-to-MP4 smoke pass. GPU readback,
 crop/scale, RecordingSession wiring, tray, hotkey and local settings persistence

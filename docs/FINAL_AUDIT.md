@@ -92,8 +92,6 @@ microphone endpoint.
 
 ## 9. NOT VERIFIED
 
-- DXGI Desktop Duplication frame delivery on this host: repeated
-  `DXGI_ERROR_WAIT_TIMEOUT` during a controlled desktop pulse.
 - Visual mixed-DPI and multi-monitor capture on physical 2-monitor hardware.
 - Device removal, display hot-unplug, mode change and suspend/resume recovery.
 - Microphone capture on a host with an available endpoint.

@@ -62,11 +62,11 @@ Implemented: contracts, physical region model, monotonic clock, frame pacing,
 recording-session accounting, WGC monitor capture, DXGI Desktop Duplication
 fallback, multi-monitor component capture/composition, D3D11 device creation
 with hardware/WARP fallback, free-threaded frame pool and bounded GPU-frame
-queue. WGC passes a local smoke with 3 frames at `1360×768` on the current
-Windows desktop. DXGI startup/interop is implemented, but current idle-desktop
-frame delivery remains **NOT VERIFIED**; the diagnostic trace reports repeated
-`DXGI_ERROR_WAIT_TIMEOUT (0x887A0027)` during a pumped visible pulse. The Media
-Foundation sink converts CPU-readable BGRA frames to NV12 and commits through a
+queue. WGC and DXGI each pass a local smoke with 3 frames at `1360×768` on the
+current Windows desktop; the latest DXGI trace reports successful
+`AcquireNextFrame` calls after a controlled visible pulse. Cross-host and
+multi-monitor fallback behavior remains **NOT VERIFIED**. The Media Foundation
+sink converts CPU-readable BGRA frames to NV12 and commits through a
 temporary sibling file. The local end-to-end smoke now captures WGC frames,
 crops/readbacks `640×360` through D3D11, and writes an MP4 through the
 RecordingSession at both 30 and 60 FPS. `PreferredCaptureSource` selects WGC
