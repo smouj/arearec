@@ -1,7 +1,7 @@
 # Native verification matrix
 
 Date: 2026-09-20  
-Repository HEAD: `865ca70` (working tree contains the native migration)
+Repository HEAD: `b0bada5` (native migration checkpoint; generated build outputs ignored)
 
 This matrix records evidence available on the current Windows 10 Pro x64 host.
 `NOT VERIFIED` means that the repository may contain an implementation, but the
