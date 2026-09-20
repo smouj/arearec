@@ -14,6 +14,7 @@ required hardware, remote runner or visual acceptance evidence was not available
 | No native encoder/network process | Static guard rejects FFmpeg, Python, process launch and network APIs; no `AreaRec`/`ffmpeg` process remains after tests | PASS by guard/process audit; runtime network instrumentation not performed |
 | Region selection and hotkey | App UI smoke passes `Ctrl+Shift+R`, selector, Escape and drag | PASS locally |
 | Real UI recording and stop | Fresh self-contained publish; UI smoke saves and decodes a `120×80` MP4 (`decoded=29–30` across fresh runs) | PASS locally |
+| Post-save media validation | The UI re-inspects the finalized MP4 for `ftyp`, video track, expected dimensions, positive duration and at least one Media Foundation-decoded frame before showing `Saved` | PASS locally |
 | Negative physical coordinates | Core intersection and region normalization tests | PASS by deterministic tests |
 | Mixed-DPI and multi-monitor visual accuracy | `PerMonitorV2` manifest is wired into the app; physical-coordinate compositor partition tests cover negative origins and monitor boundaries | **NOT VERIFIED** visually on this one-monitor host |
 | Windows Graphics Capture | Runtime smoke: 3 frames at `1360×768` | PASS locally |
@@ -29,7 +30,7 @@ required hardware, remote runner or visual acceptance evidence was not available
 | Robustness matrix | Small/fullscreen/off-screen regions and cancellation are covered in code/tests; the requested 1920×1080, 2560×1440, 3840×2160 × 30/60 FPS × 100–200% DPI × 1/2-monitor matrix, disk-full and unwritable-path runs are not all available on this host | **NOT VERIFIED** as a complete matrix |
 | Settings | Versioned JSON (`Version=1`) with temporary sibling and replacement | PASS locally |
 | Audio | WASAPI loopback smoke: 48 kHz, 2 channels, 32-bit, 3 chunks / 11,520 bytes; WGC + WASAPI + RecordingSession E2E (`22` decoded frames, AAC track); deterministic mixer/resampler/session-clock tests | Loopback/mixing/resampling/session/A-V mux PASS locally; microphone runtime **NOT VERIFIED** |
-| Self-contained x64 publish | `PUBLISH_PORTABLE.ps1` produced a 78,889,806-byte ZIP with `AreaRec.exe`, `hostfxr.dll`, and matching SHA-256 (`120b521a7c2fde7d5285cc35aa12ec9c79a0733a1c996c5a40440463a3e0af7f`); packaged UI smoke passes | PASS locally |
+| Self-contained x64 publish | `PUBLISH_PORTABLE.ps1` produced a 78,894,797-byte ZIP with `AreaRec.exe`, `hostfxr.dll`, and matching SHA-256 (`f1b714848c143e1b2ffa7f198b2a26d5d8122dd705b33a21761f495fe53d77da`); packaged UI smoke passes | PASS locally |
 | CI | `.github/workflows/native-ci.yml` covers restore, build, format, dependency guard, tests and publish | Remote GitHub check **NOT VERIFIED** |
 | Performance | Local WGC baseline plus synthetic MF sink measurements at 640×360, 1080p, 1440p and 4K documented in `docs/PERFORMANCE.md` | Encoder/conversion sizes PASS; sustained capture/GPU engine/multi-monitor targets **NOT VERIFIED** |
 

@@ -20,6 +20,8 @@ internal sealed class MainForm : Form
     private readonly Stopwatch _recordingClock = new();
     private AppSettings _settings;
     private PhysicalRegion? _selectedRegion;
+    private PhysicalRegion? _recordingRegion;
+    private string? _recordingPath;
     private RecordingSession? _session;
     private readonly NotifyIcon _tray;
     private bool _closing;
@@ -227,6 +229,8 @@ internal sealed class MainForm : Form
                 return new D3D11FrameProcessor(context.NativeDevice, context.NativeContext);
             });
         _session = session;
+        _recordingRegion = region;
+        _recordingPath = dialog.FileName;
         _record.Enabled = false;
         _stop.Enabled = true;
         _status.Text = "Starting native recording…";
@@ -275,6 +279,16 @@ internal sealed class MainForm : Form
             await Task.Run(
                 () => session.StopAsync(CancellationToken.None).AsTask(),
                 CancellationToken.None);
+            var outputPath = _recordingPath;
+            var expectedRegion = _recordingRegion;
+            if (outputPath is null || expectedRegion is null)
+            {
+                throw new InvalidDataException("The recording output path was lost before validation.");
+            }
+
+            await Task.Run(
+                () => ValidateCompletedOutput(outputPath, expectedRegion.Value),
+                CancellationToken.None);
             var statistics = session.Statistics;
             _status.Text = $"Saved · {statistics.EncodedFrames} frames · {statistics.EffectiveFramesPerSecond:0.0} FPS";
         }
@@ -286,6 +300,8 @@ internal sealed class MainForm : Form
         {
             await DisposeSessionAsync(session);
             _record.Enabled = _selectedRegion.HasValue;
+            _recordingRegion = null;
+            _recordingPath = null;
         }
     }
 
@@ -301,6 +317,35 @@ internal sealed class MainForm : Form
         if (ReferenceEquals(_session, session))
         {
             _session = null;
+        }
+    }
+
+    private static void ValidateCompletedOutput(string outputPath, PhysicalRegion expectedRegion)
+    {
+        if (!File.Exists(outputPath) || new FileInfo(outputPath).Length == 0)
+        {
+            throw new InvalidDataException("Media Foundation did not produce a non-empty MP4 file.");
+        }
+
+        var expected = expectedRegion.NormalizeForH264();
+        var inspection = Mp4Inspector.Inspect(outputPath);
+        if (!inspection.HasFileTypeBox ||
+            !inspection.HasVideoTrack ||
+            inspection.Width != expected.Width ||
+            inspection.Height != expected.Height ||
+            inspection.Duration <= TimeSpan.Zero)
+        {
+            throw new InvalidDataException(
+                $"The MP4 metadata is invalid: video={inspection.HasVideoTrack}, size={inspection.Width}x{inspection.Height}, duration={inspection.Duration.TotalMilliseconds:0}ms.");
+        }
+
+        var playback = MediaFoundationPlaybackValidator.Validate(
+            outputPath,
+            expected.Width,
+            expected.Height);
+        if (playback.DecodedFrames < 1)
+        {
+            throw new InvalidDataException("The final MP4 could not be decoded by Media Foundation.");
         }
     }
 
