@@ -31,6 +31,7 @@ internal static class Program
             return 2;
         }
 
+        var startup = Stopwatch.StartNew();
         using var app = Process.Start(new ProcessStartInfo
         {
             FileName = appPath,
@@ -55,6 +56,19 @@ internal static class Program
                 Console.WriteLine("NOT VERIFIED: AreaRec did not expose a main window.");
                 return 2;
             }
+
+            startup.Stop();
+            app.Refresh();
+            var idleCpuBefore = app.TotalProcessorTime;
+            var idleWindow = Stopwatch.StartNew();
+            Thread.Sleep(1_000);
+            app.Refresh();
+            idleWindow.Stop();
+            var idleCpuMilliseconds = (app.TotalProcessorTime - idleCpuBefore).TotalMilliseconds;
+            var idleCpuPercent = idleWindow.Elapsed.TotalMilliseconds > 0
+                ? idleCpuMilliseconds / idleWindow.Elapsed.TotalMilliseconds / Environment.ProcessorCount * 100
+                : 0;
+            var idleWorkingSet = app.WorkingSet64 / (1024 * 1024);
 
             var mainWindow = app.MainWindowHandle;
             SetForegroundWindow(mainWindow);
@@ -180,7 +194,8 @@ internal static class Program
             }
 
             var playback = MediaFoundationPlaybackValidator.Validate(recordingPath, inspection.Width, inspection.Height);
-            Console.WriteLine($"PASS UI hotkey=Ctrl+Shift+R selector=opened escape=cancelled drag=accepted record=enabled saved=mp4 decoded={playback.DecodedFrames} size={inspection.Width}x{inspection.Height}");
+            Console.WriteLine(
+                $"PASS UI hotkey=Ctrl+Shift+R selector=opened escape=cancelled drag=accepted record=enabled saved=mp4 decoded={playback.DecodedFrames} size={inspection.Width}x{inspection.Height} startupToWindow={startup.Elapsed.TotalMilliseconds:0}ms idleCpu={idleCpuPercent:0.0}% idleWorkingSet={idleWorkingSet}MB");
             return 0;
         }
         catch (Exception exception)

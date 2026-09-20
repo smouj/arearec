@@ -31,6 +31,10 @@ These are smoke measurements, not release targets. Captured on 2026-09-20:
 - Windows 10 Pro 10.0.19045 x64; .NET 8.0.425.
 - Intel Core i7-6700 (4 cores / 8 logical processors); NVIDIA GeForce GTX 1060
   6 GB, driver 32.0.15.8157.
+- Self-contained package UI smoke: process startup to main window `617 ms`,
+  idle CPU `0.8%`, idle working set `51 MB` after a one-second idle sample. The
+  `<300 ms` startup aspiration was not met in this run; the CPU and memory
+  measurements are within the documented guidance.
 - WGC → D3D11 crop/readback → Media Foundation MP4, `640×360`, cursor off,
   `preferHardware=true` (hardware H.264 MFT enumeration found
   `NVIDIA H.264 Encoder MFT`; the Media Foundation smoke now selects that
