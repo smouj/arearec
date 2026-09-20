@@ -2,7 +2,7 @@
 
 Audit date: 2026-09-20  
 Repository: `smouj/arearec`  
-Delivery state: local native release candidate; no remote push performed.
+Delivery state: native release candidate pushed to `origin/main`.
 
 ## 1. Final commit and working tree
 
@@ -97,7 +97,7 @@ endpoint.
 - Device removal, display hot-unplug, mode change and suspend/resume recovery.
 - Microphone capture on a host with an available endpoint.
 - Remote GitHub Actions result for the new workflow; local clean-clone CI steps
-  pass, but no push was performed.
+  pass, and the workflow is now published on `origin/main`.
 - Complete 30/60 FPS × 1920×1080/2560×1440/3840×2160 × 100–200% DPI ×
   1/2-monitor performance matrix, GPU engine utilization, disk-full and
   unwritable-path runs.
