@@ -1,7 +1,7 @@
 # Native verification matrix
 
 Date: 2026-09-20  
-Repository HEAD: native migration checkpoint (generated build outputs ignored; see the final report for the exact commit)
+Repository HEAD: see `git rev-parse HEAD` at verification time (generated build outputs ignored)
 
 This matrix records evidence available on the current Windows 10 Pro x64 host.
 `NOT VERIFIED` means that the repository may contain an implementation, but the

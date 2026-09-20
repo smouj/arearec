@@ -6,12 +6,13 @@ Delivery state: local native release candidate; no remote push performed.
 
 ## 1. Final commit and working tree
 
+The delivery HEAD is the value returned by `git rev-parse HEAD` at audit time.
 The migration is represented by the local commit history beginning with
 `e2b42a5` (`feat: migrate AreaRec to native Windows capture`). Subsequent
 checkpoints harden cleanup, final-output validation, off-screen regions,
 performance measurement and configuration validation. The exact delivery HEAD
-is the value returned by `git rev-parse HEAD`; the working tree is clean and
-generated `bin/`/`obj/` outputs are ignored and untracked.
+and the working tree is clean; generated `bin/`/`obj/` outputs are ignored and
+untracked.
 
 ## 2. Final architecture
 
