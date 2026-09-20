@@ -1,7 +1,7 @@
 # Native verification matrix
 
 Date: 2026-09-20  
-Repository HEAD: `b0bada5` (native migration checkpoint; generated build outputs ignored)
+Repository HEAD: native migration checkpoint (generated build outputs ignored; see the final report for the exact commit)
 
 This matrix records evidence available on the current Windows 10 Pro x64 host.
 `NOT VERIFIED` means that the repository may contain an implementation, but the
@@ -9,7 +9,7 @@ required hardware, remote runner or visual acceptance evidence was not available
 
 | Requirement | Evidence | Status |
 | --- | --- | --- |
-| Native restore and build | `dotnet restore AreaRec.sln --runtime win-x64`; Release build with 0 warnings/errors | PASS locally |
+| Native restore and build | Main workspace and a fresh local clone both restored `AreaRec.sln --runtime win-x64`, built Release with 0 warnings/errors, and passed `dotnet format --verify-no-changes` | PASS locally |
 | Python/FFmpeg removal | No `*.py`, `*.pyc`, `pyproject.toml` or Python workflow; native dependency guard passes | PASS in checkout |
 | No native encoder/network process | Static guard rejects FFmpeg, Python, process launch and network APIs; no `AreaRec`/`ffmpeg` process remains after tests | PASS by guard/process audit; runtime network instrumentation not performed |
 | Region selection and hotkey | App UI smoke passes `Ctrl+Shift+R`, selector, Escape and drag | PASS locally |
