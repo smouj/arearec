@@ -30,9 +30,9 @@ required hardware, remote runner or visual acceptance evidence was not available
 | Robustness matrix | Small/fullscreen/off-screen regions, physical compositor offsets and cancellation are covered in code/tests; the requested 1920×1080, 2560×1440, 3840×2160 × 30/60 FPS × 100–200% DPI × 1/2-monitor matrix, disk-full and unwritable-path runs are not all available on this host | **NOT VERIFIED** as a complete matrix |
 | Settings | Versioned JSON (`Version=1`) with temporary sibling and replacement | PASS locally |
 | Audio | WASAPI loopback smoke: 48 kHz, 2 channels, 32-bit, 3 chunks / 11,520 bytes; WGC + WASAPI + RecordingSession E2E (`22` decoded frames, AAC track); deterministic mixer/resampler/session-clock tests | Loopback/mixing/resampling/session/A-V mux PASS locally; microphone runtime **NOT VERIFIED** |
-| Self-contained x64 publish | `PUBLISH_PORTABLE.ps1` produced a 78,895,097-byte ZIP with `AreaRec.exe`, `hostfxr.dll`, and matching SHA-256 (`84a38b2c7ac8a8805d283a52dcdde342e1c5c1f0aa831c636a04dc14877bda49`); packaged UI smoke passes | PASS locally |
+| Self-contained x64 publish | `PUBLISH_PORTABLE.ps1` produced a 78,895,107-byte ZIP with `AreaRec.exe`, `hostfxr.dll`, and matching SHA-256 (`4ba47416e3250133b5aadb3fe126cf3bf7e977080d990c4db5c97f07d86d86b1`); packaged UI smoke passes | PASS locally |
 | CI | `.github/workflows/native-ci.yml` covers restore, build, format, dependency guard, tests and publish | Remote GitHub check **NOT VERIFIED** |
-| Performance | Local package UI smoke measured startup-to-window `617 ms`, idle CPU `0.8%`, working set `51 MB`; synthetic MF sink measurements cover 640×360, 1080p, 1440p and 4K | CPU/memory and encoder/conversion measurements PASS; `<300 ms` startup, sustained capture/GPU engine/multi-monitor targets **NOT VERIFIED** |
+| Performance | Local package UI smoke measured startup-to-window `487 ms`, idle CPU `0.0%`, working set `50 MB`; synthetic MF sink measurements cover 640×360, 1080p, 1440p and 4K | CPU/memory and encoder/conversion measurements PASS; `<300 ms` startup, sustained capture/GPU engine/multi-monitor targets **NOT VERIFIED** |
 
 The native product path is now the only supported runtime. Installer/MSIX, tray
 visual acceptance and additional hardware matrix coverage remain follow-up work.

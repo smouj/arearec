@@ -15,6 +15,7 @@ internal static class Program
             ("preserves offsets for partially off-screen regions", RegionLayoutPreservesOffscreenOffset),
             ("accepts configured frame rates", SettingsValidate),
             ("rejects unsupported frame rates", SettingsRejectsUnsupportedRate),
+            ("rejects unsupported video quality", SettingsRejectsUnsupportedQuality),
             ("pacer advances by a stable period", PacerAdvances),
             ("session normalizes timestamps and accounts frames", SessionAccountsFrames),
             ("session drops frames above the requested cadence", SessionDropsFrames),
@@ -101,6 +102,20 @@ internal static class Program
             throw new InvalidOperationException("unsupported rate was accepted");
         }
         catch (ArgumentOutOfRangeException)
+        {
+        }
+    }
+
+    private static void SettingsRejectsUnsupportedQuality()
+    {
+        try
+        {
+            new CaptureSettings(
+                new PhysicalRegion(0, 0, 100, 100),
+                Quality: (VideoQuality)999).Validate();
+            throw new InvalidOperationException("unsupported video quality was accepted");
+        }
+        catch (ArgumentOutOfRangeException exception) when (exception.ParamName == "Quality")
         {
         }
     }

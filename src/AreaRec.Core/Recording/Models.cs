@@ -63,6 +63,11 @@ public sealed record CaptureSettings(
         {
             throw new ArgumentOutOfRangeException(nameof(FramesPerSecond), "Only 30 and 60 FPS are supported by the initial profile set.");
         }
+
+        if (!Enum.IsDefined(Quality))
+        {
+            throw new ArgumentOutOfRangeException(nameof(Quality), Quality, "The selected video quality is not supported.");
+        }
     }
 }
 
