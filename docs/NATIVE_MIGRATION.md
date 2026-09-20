@@ -214,6 +214,7 @@ event-driven WASAPI loopback smoke (`48 kHz`, 2 channels, 32-bit), and
 `PcmAudioResampler` provides linear PCM rate conversion. `RecordingSession` now
 shares one media timestamp origin between video and audio, and the Media
 Foundation sink can expose an optional AAC stream; synthetic AAC+H.264 MP4 and
-a local WGC + WASAPI loopback E2E pass. The current host has no microphone endpoint
-(`0x80070490`) to verify, and the product UI keeps audio opt-in/unexposed for
-the first video release.
+a local WGC + WASAPI loopback E2E pass. The microphone source now falls back to
+the first active capture endpoint when Windows has no default; this host has no
+active microphone endpoint to verify, and the product UI keeps audio
+opt-in/unexposed for the first video release.

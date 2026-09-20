@@ -16,8 +16,10 @@ public class WasapiLoopbackSource : IAudioSource
     private const uint AudclntStreamflagsLoopback = 0x0002_0000;
     private const uint AudclntStreamflagsEventcallback = 0x0004_0000;
     private const uint AudclntBufferflagsSilent = 0x2;
+    private const uint DeviceStateActive = 0x1;
     private const int CoInitMultithreaded = 0x0;
     private const int RpcEChangedMode = unchecked((int)0x80010106);
+    private const int ElementNotFound = unchecked((int)0x80070490);
     private static readonly Guid AudioClientIid = new("1CB9AD4C-DBFA-4c32-B178-C2F568A703B2");
     private static readonly Guid AudioCaptureClientIid = new("C8ADBD64-E71E-48A0-A4DE-185C395CD317");
     private static readonly Guid IeeeFloatSubFormat = new("00000003-0000-0010-8000-00AA00389B71");
@@ -182,9 +184,20 @@ public class WasapiLoopbackSource : IAudioSource
         var enumerator = (IMMDeviceEnumerator)Activator.CreateInstance(enumeratorType)!;
         try
         {
-            Check(
-                enumerator.GetDefaultAudioEndpoint(_dataFlow, Role.Console, out var device),
-                "IMMDeviceEnumerator.GetDefaultAudioEndpoint");
+            var defaultEndpointHr = enumerator.GetDefaultAudioEndpoint(_dataFlow, Role.Console, out var device);
+            if (defaultEndpointHr == ElementNotFound && _dataFlow == DataFlow.Capture)
+            {
+                // A capture endpoint can be active without being assigned as
+                // the Windows default. This is common for virtual microphones
+                // and avoids rejecting an explicitly requested microphone
+                // source solely because the user's default is unset.
+                device = GetFirstActiveCaptureEndpoint(enumerator);
+            }
+            else
+            {
+                Check(defaultEndpointHr, "IMMDeviceEnumerator.GetDefaultAudioEndpoint");
+            }
+
             try
             {
                 var audioClientIid = AudioClientIid;
@@ -255,6 +268,28 @@ public class WasapiLoopbackSource : IAudioSource
         {
             Marshal.FreeCoTaskMem(formatPointer);
         }
+    }
+
+    private static IMMDevice GetFirstActiveCaptureEndpoint(IMMDeviceEnumerator enumerator)
+    {
+        Check(
+            enumerator.EnumAudioEndpoints(DataFlow.Capture, DeviceStateActive, out var devices),
+            "IMMDeviceEnumerator.EnumAudioEndpoints");
+        try
+        {
+            Check(devices.GetCount(out var count), "IMMDeviceCollection.GetCount");
+            if (count > 0)
+            {
+                Check(devices.Item(0, out var device), "IMMDeviceCollection.Item");
+                return device;
+            }
+        }
+        finally
+        {
+            ReleaseCom(ref devices);
+        }
+
+        throw new InvalidOperationException("No active WASAPI microphone endpoint is available.");
     }
 
     private uint GetNextPacketSize()
@@ -352,11 +387,18 @@ public class WasapiLoopbackSource : IAudioSource
     [ComImport, Guid("A95664D2-9614-4F35-A746-DE8DB63617E6"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     private interface IMMDeviceEnumerator
     {
-        [PreserveSig] int EnumAudioEndpoints(DataFlow dataFlow, uint stateMask, out object devices);
+        [PreserveSig] int EnumAudioEndpoints(DataFlow dataFlow, uint stateMask, out IMMDeviceCollection devices);
         [PreserveSig] int GetDefaultAudioEndpoint(DataFlow dataFlow, Role role, out IMMDevice device);
         [PreserveSig] int GetDevice([MarshalAs(UnmanagedType.LPWStr)] string deviceId, out IMMDevice device);
         [PreserveSig] int RegisterEndpointNotificationCallback(IntPtr client);
         [PreserveSig] int UnregisterEndpointNotificationCallback(IntPtr client);
+    }
+
+    [ComImport, Guid("0BD7A1BE-7A1A-44DB-8397-CC5392387B5E"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    private interface IMMDeviceCollection
+    {
+        [PreserveSig] int GetCount(out uint count);
+        [PreserveSig] int Item(uint index, out IMMDevice device);
     }
 
     [ComImport, Guid("D666063F-1587-4E43-81F1-B948E807363F"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]

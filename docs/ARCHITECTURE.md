@@ -73,8 +73,9 @@ verifies the MP4 video track, dimensions and positive duration.
 The versioned settings file is written through a temporary sibling and atomic
 replacement. The audio boundary now carries format and timestamped chunks and
 exposes a mixer/clock seam. `WasapiLoopbackSource` captures the default render
-  endpoint through event-driven loopback; the microphone source is implemented
-  but has no endpoint to verify on this host. `PcmAudioMixer` handles aligned
+  endpoint through event-driven loopback; the microphone source selects the
+  default or first active capture endpoint but has no active endpoint to verify
+  on this host. `PcmAudioMixer` handles aligned
   PCM chunks and `PcmAudioResampler` performs linear rate conversion;
   the optional `RecordingSession` audio path shares one timestamp origin with
   video, and `MediaFoundationMp4Sink` can mux WASAPI-format PCM through the
