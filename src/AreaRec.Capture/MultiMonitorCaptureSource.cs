@@ -23,10 +23,10 @@ public sealed class MultiMonitorCaptureSource : ICaptureSource, IFrameDropMetric
     {
         _targetRegion = targetRegion.NormalizeForH264();
         _monitorRegions = MonitorRegionEnumerator.FindIntersecting(_targetRegion);
-        if (_monitorRegions.Count < 2)
+        if (_monitorRegions.Count == 0)
         {
             throw new ArgumentException(
-                "The selected region must intersect at least two display monitors for a composite source.",
+                "The selected region must intersect at least one display monitor for a composite source.",
                 nameof(targetRegion));
         }
     }
@@ -203,10 +203,19 @@ public static class CaptureSourceFactory
 {
     public static ICaptureSource Create(PhysicalRegion targetRegion)
     {
-        var monitors = MonitorRegionEnumerator.FindIntersecting(targetRegion);
-        return monitors.Count > 1
-            ? new MultiMonitorCaptureSource(targetRegion)
-            : new PreferredCaptureSource();
+        var normalizedTarget = targetRegion.NormalizeForH264();
+        var monitors = MonitorRegionEnumerator.FindIntersecting(normalizedTarget);
+        if (monitors.Count == 0)
+        {
+            throw new ArgumentException(
+                "The selected region does not intersect an attached display monitor.",
+                nameof(targetRegion));
+        }
+
+        var fitsOneMonitor = monitors.Count == 1 && monitors[0].Contains(normalizedTarget);
+        return fitsOneMonitor
+            ? new PreferredCaptureSource()
+            : new MultiMonitorCaptureSource(normalizedTarget);
     }
 }
 

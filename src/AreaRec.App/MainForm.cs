@@ -214,29 +214,30 @@ internal sealed class MainForm : Form
         var selectedFps = (string)_fps.SelectedItem! == "60" ? 60 : 30;
         var selectedQuality = Enum.Parse<VideoQuality>((string)_quality.SelectedItem!);
         var settings = new CaptureSettings(region, selectedFps, selectedQuality, _cursor.Checked);
-        var capture = CaptureSourceFactory.Create(region);
-        var sink = new MediaFoundationMp4Sink(dialog.FileName);
-        var session = new RecordingSession(
-            capture,
-            sink,
-            processorFactory: source =>
-            {
-                if (source is not INativeGraphicsContext context || context.NativeDevice == 0 || context.NativeContext == 0)
-                {
-                    throw new InvalidOperationException("The selected capture backend has no D3D11 context.");
-                }
-
-                return new D3D11FrameProcessor(context.NativeDevice, context.NativeContext);
-            });
-        _session = session;
-        _recordingRegion = region;
-        _recordingPath = dialog.FileName;
-        _record.Enabled = false;
-        _stop.Enabled = true;
-        _status.Text = "Starting native recording…";
-
+        RecordingSession? session = null;
         try
         {
+            var capture = CaptureSourceFactory.Create(region);
+            var sink = new MediaFoundationMp4Sink(dialog.FileName);
+            var createdSession = new RecordingSession(
+                capture,
+                sink,
+                processorFactory: source =>
+                {
+                    if (source is not INativeGraphicsContext context || context.NativeDevice == 0 || context.NativeContext == 0)
+                    {
+                        throw new InvalidOperationException("The selected capture backend has no D3D11 context.");
+                    }
+
+                    return new D3D11FrameProcessor(context.NativeDevice, context.NativeContext);
+                });
+            session = createdSession;
+            _session = createdSession;
+            _recordingRegion = region;
+            _recordingPath = dialog.FileName;
+            _record.Enabled = false;
+            _stop.Enabled = true;
+            _status.Text = "Starting native recording…";
             _settings = _settings with
             {
                 FramesPerSecond = selectedFps,
@@ -248,7 +249,7 @@ internal sealed class MainForm : Form
             // Media Foundation creates COM objects here; keep the sink and its
             // frame consumer on the worker/MTA side instead of the WinForms STA.
             await Task.Run(
-                () => session.StartAsync(settings, CancellationToken.None).AsTask(),
+                () => createdSession.StartAsync(settings, CancellationToken.None).AsTask(),
                 CancellationToken.None);
             _recordingClock.Restart();
             _recordingTimer.Start();
@@ -257,7 +258,14 @@ internal sealed class MainForm : Form
         catch (Exception exception)
         {
             _status.Text = $"Recording error: {DescribeException(exception)}";
-            await DisposeSessionAsync(session);
+            if (session is not null)
+            {
+                await DisposeSessionAsync(session);
+            }
+
+            _record.Enabled = _selectedRegion.HasValue;
+            _recordingRegion = null;
+            _recordingPath = null;
         }
     }
 

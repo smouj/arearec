@@ -12,6 +12,7 @@ internal static class Program
             ("normalizes direction and H.264 dimensions", RegionNormalizes),
             ("intersects physical monitor regions", RegionIntersects),
             ("partitions physical regions across monitor boundaries", RegionLayoutPartitions),
+            ("preserves offsets for partially off-screen regions", RegionLayoutPreservesOffscreenOffset),
             ("accepts configured frame rates", SettingsValidate),
             ("rejects unsupported frame rates", SettingsRejectsUnsupportedRate),
             ("pacer advances by a stable period", PacerAdvances),
@@ -79,6 +80,17 @@ internal static class Program
         Assert(segments[0].Intersection == new PhysicalRegion(-200, 100, 200, 400), "negative monitor segment mismatch");
         Assert(segments[1].DestinationX == 200 && segments[1].Intersection.Width == 1_920, "middle monitor offset mismatch");
         Assert(segments[2].DestinationX == 2_120 && segments[2].Intersection.Width == 280, "right monitor segment mismatch");
+    }
+
+    private static void RegionLayoutPreservesOffscreenOffset()
+    {
+        var target = new PhysicalRegion(-100, 20, 200, 100);
+        var monitor = new PhysicalRegion(0, 0, 1_920, 1_080);
+        var segments = PhysicalRegionLayout.Partition(target, [monitor]);
+
+        Assert(segments.Count == 1, "partially off-screen region lost its visible monitor segment");
+        Assert(segments[0].Intersection == new PhysicalRegion(0, 20, 100, 100), "off-screen intersection mismatch");
+        Assert(segments[0].DestinationX == 100, "off-screen black-fill offset mismatch");
     }
 
     private static void SettingsRejectsUnsupportedRate()

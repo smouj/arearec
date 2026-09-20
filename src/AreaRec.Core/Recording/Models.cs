@@ -22,6 +22,12 @@ public readonly record struct PhysicalRegion(int X, int Y, int Width, int Height
             : null;
     }
 
+    public bool Contains(PhysicalRegion other) =>
+        (long)other.X >= X &&
+        (long)other.Y >= Y &&
+        (long)other.X + other.Width <= (long)X + Width &&
+        (long)other.Y + other.Height <= (long)Y + Height;
+
     public static PhysicalRegion FromPoints(int x1, int y1, int x2, int y2)
     {
         var left = Math.Min(x1, x2);
