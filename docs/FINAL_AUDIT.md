@@ -78,8 +78,8 @@ license remains MIT.
 
 ## 7. Performance measurements
 
-The latest packaged UI smoke measured startup to main window at `487 ms`, idle
-CPU at `0.0%` and working set at `50 MB`. Synthetic Media Foundation
+Packaged UI smoke runs observed startup to main window at `487–699 ms`, idle CPU
+at `0.0–0.8%` and working set at `50–51 MB`. Synthetic Media Foundation
 conversion/encoding measurements exist for 640×360, 1080p, 1440p and 4K.
 The `<300 ms` startup aspiration was not met in the measured run.
 

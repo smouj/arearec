@@ -20,7 +20,7 @@ required hardware, remote runner or visual acceptance evidence was not available
 | Windows Graphics Capture | Runtime smoke: 3 frames at `1360×768` | PASS locally |
 | DXGI Desktop Duplication | COM startup path builds; trace shows repeated `DXGI_ERROR_WAIT_TIMEOUT (0x887A0027)` during a pumped visible pulse | **NOT VERIFIED** on this host |
 | D3D11 crop/readback and pacing | WGC-to-MP4 E2E with D3D11 processing, bounded queue, duplicate/drop accounting | PASS locally |
-| 30 FPS H.264/MP4 | Hardware E2E with playback validation: 22 encoded/decoded frames, `640×360`, `733 ms` track; NVIDIA H.264 Encoder MFT selected | PASS locally |
+| 30 FPS H.264/MP4 | Latest hardware E2E with playback validation: 23 encoded/decoded frames, `640×360`, `767 ms` track; NVIDIA H.264 Encoder MFT selected | PASS locally |
 | 60 FPS H.264/MP4 | Hardware E2E with playback validation: 44 encoded/decoded frames, `640×360`, `733 ms` track; NVIDIA H.264 Encoder MFT selected | PASS locally |
 | Cursor option | Cursor-enabled hardware E2E decodes 22 frames; saved cursor OFF/ON MP4 probe found 466 differing decoded NV12 bytes | PASS locally |
 | Hardware H.264 MFT availability | `MFTEnumEx` enumerated `NVIDIA H.264 Encoder MFT` for hardware H.264 | PASS enumeration |
@@ -30,9 +30,9 @@ required hardware, remote runner or visual acceptance evidence was not available
 | Robustness matrix | Small/fullscreen/off-screen regions, physical compositor offsets and cancellation are covered in code/tests; the requested 1920×1080, 2560×1440, 3840×2160 × 30/60 FPS × 100–200% DPI × 1/2-monitor matrix, disk-full and unwritable-path runs are not all available on this host | **NOT VERIFIED** as a complete matrix |
 | Settings | Versioned JSON (`Version=1`) with temporary sibling and replacement | PASS locally |
 | Audio | WASAPI loopback smoke: 48 kHz, 2 channels, 32-bit, 3 chunks / 11,520 bytes; WGC + WASAPI + RecordingSession E2E (`22` decoded frames, AAC track); deterministic mixer/resampler/session-clock tests | Loopback/mixing/resampling/session/A-V mux PASS locally; microphone runtime **NOT VERIFIED** |
-| Self-contained x64 publish | `PUBLISH_PORTABLE.ps1` produced a 78,895,107-byte ZIP with `AreaRec.exe`, `hostfxr.dll`, and matching SHA-256 (`4ba47416e3250133b5aadb3fe126cf3bf7e977080d990c4db5c97f07d86d86b1`); packaged UI smoke passes | PASS locally |
+| Self-contained x64 publish | `PUBLISH_PORTABLE.ps1` produced a 78,895,100-byte ZIP with `AreaRec.exe`, `hostfxr.dll`, and matching SHA-256 (`c13e0765ccfbe010681e53810374f37970f727c3a904b67d92cfeeaa6e0e5bb3`); packaged UI smoke passes | PASS locally |
 | CI | `.github/workflows/native-ci.yml` covers restore, build, format, dependency guard, tests and publish | Remote GitHub check **NOT VERIFIED** |
-| Performance | Local package UI smoke measured startup-to-window `487 ms`, idle CPU `0.0%`, working set `50 MB`; synthetic MF sink measurements cover 640×360, 1080p, 1440p and 4K | CPU/memory and encoder/conversion measurements PASS; `<300 ms` startup, sustained capture/GPU engine/multi-monitor targets **NOT VERIFIED** |
+| Performance | Local package UI smoke observed startup-to-window `487–699 ms`, idle CPU `0.0–0.8%`, working set `50–51 MB`; synthetic MF sink measurements cover 640×360, 1080p, 1440p and 4K | CPU/memory and encoder/conversion measurements PASS; `<300 ms` startup, sustained capture/GPU engine/multi-monitor targets **NOT VERIFIED** |
 
 The native product path is now the only supported runtime. Installer/MSIX, tray
 visual acceptance and additional hardware matrix coverage remain follow-up work.
