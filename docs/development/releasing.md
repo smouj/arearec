@@ -49,5 +49,5 @@ omit only the desktop shortcut.
 An installer/MSIX package and manual UI acceptance matrix remain **NOT
 VERIFIED**.
 
-See [docs/VERIFICATION.md](VERIFICATION.md) for the requirement-by-requirement
+See [../history/verification-2026-09-20.md](../history/verification-2026-09-20.md) for the requirement-by-requirement
 evidence and the remaining hardware/CI limits.

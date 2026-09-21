@@ -9,9 +9,9 @@ turning the application into a general-purpose recording suite.
 1. Restore and build `AreaRec.sln` in Release configuration.
 2. Run `dotnet format AreaRec.sln --verify-no-changes --no-restore`.
 3. Run the core tests and the relevant Windows smoke test from
-   [docs/RELEASE.md](docs/RELEASE.md).
+   [docs/development/testing.md](docs/development/testing.md).
 4. Run `git diff --check` and confirm no generated output is tracked.
-5. Update [docs/VERIFICATION.md](docs/VERIFICATION.md) when evidence or
+5. Update [docs/history/verification-2026-09-20.md](docs/history/verification-2026-09-20.md) when evidence or
    hardware limits change.
 
 The solution build is intentionally run without a runtime identifier. Apply

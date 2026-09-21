@@ -8,78 +8,136 @@
 </p>
 
 <p align="center">
-  <img src="assets/social-banner.png" alt="AreaRec Banner" width="640">
+  <img src="assets/social-banner.png" alt="AreaRec — Select a region. Record it. Get an MP4." width="680">
 </p>
 
-AreaRec is a tiny, local-first Windows screen recorder focused on one workflow: drag a rectangle over the screen and record exactly that area. No account, no cloud, no telemetry, no editor.
+<p align="center">
+  <img src="https://img.shields.io/badge/platform-Windows%2010%20%7C%2011%20x64-blue?style=flat-square" alt="Platform: Windows 10/11 x64">
+  <img src="https://img.shields.io/badge/engine-.NET%208-512bd4?style=flat-square" alt="Engine: .NET 8">
+  <img src="https://img.shields.io/badge/capture-Windows%20Graphics%20Capture-0067c0?style=flat-square" alt="Capture: Windows Graphics Capture with DXGI fallback">
+  <img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="License: MIT">
+  <img src="https://img.shields.io/badge/status-alpha-orange?style=flat-square" alt="Status: alpha">
+</p>
 
-The visual identity is documented in [docs/BRANDING.md](docs/BRANDING.md). The repository ships the generated transparent mark, raster lockup, social banner, and Windows `.ico` application icon used by the app and portable installer.
+**AreaRec** is a tiny, local-first screen recorder for Windows built around one workflow: drag a rectangle over your screen, record exactly that area, get an MP4. No account, no cloud, no telemetry, no editor, no plugin system.
 
-The native Windows implementation lives in the `AreaRec.sln` solution and is
-the only supported product path.
+It is the capture half of the Area family:
 
-## Why AreaRec?
+| App | Job |
+| --- | --- |
+| **AreaRec** | Select a region. Record it. Get an MP4. |
+| [**AreaCut**](https://github.com/smouj/areacut) | Cut it, reframe it, caption it, export it. |
 
-Most screen-recording tools are built as full production suites. AreaRec deliberately is not. Its v0.1 scope is frozen around the shortest useful path:
+The two are independent applications. AreaRec produces a plain MP4 that any tool can open — see [AreaCut](https://github.com/smouj/areacut) if you want to edit it.
 
-`Select region → Record → Stop → MP4`
+## Contents
+
+- [Status](#status)
+- [Features](#features)
+- [Requirements](#requirements)
+- [Download and install](#download-and-install)
+- [Run from source](#run-from-source)
+- [Documentation](#documentation)
+- [Privacy](#privacy)
+- [License](#license)
+
+## Status
+
+AreaRec is **alpha**: the recorder works and has been exercised end to end, but
+there is no published release and the cross-hardware verification matrix is
+incomplete. What is proven and what is not is listed item by item in
+[docs/history/verification-2026-09-20.md](docs/history/verification-2026-09-20.md).
+
+| Area | State |
+| --- | --- |
+| Region selection, 30/60 FPS, cursor on/off, start/stop | ✅ implemented, smoke-tested locally |
+| MP4 / H.264 output through Media Foundation | ✅ local end-to-end recordings decode |
+| Windows Graphics Capture with DXGI Desktop Duplication fallback | ✅ local smoke on one host |
+| Global hotkey `Ctrl+Shift+R`, tray lifecycle, versioned local settings | ✅ local UI smoke |
+| Hardware H.264 encoder selection | ✅ NVIDIA encoder MFT selected on the test host |
+| Self-contained portable package | ✅ produced locally, with SHA-256 |
+| Mixed-DPI and multi-monitor visual accuracy | 🚧 **not verified** — needs two-monitor hardware |
+| Device removal, display hot-unplug, suspend/resume | 🚧 **not verified** |
+| Hardware matrix at 1080p/1440p/4K, 30 and 60 FPS | 🚧 **not verified** |
+| System audio in the product UI | 🚧 engine ready, deliberately not exposed |
+| Public release | ⛔ none yet |
+| GitHub Actions on `main` | ⚠️ currently failing |
 
 ## Features
 
-- Mouse-driven region selection
-- Exact X/Y/width/height capture
-- 30 or 60 FPS
-- Optional mouse cursor
-- MP4/H.264 output through Windows Media Foundation
-- Windows Graphics Capture with DXGI Desktop Duplication fallback
-- Direct3D 11 crop/readback pipeline
-- Ctrl+Shift+R global hotkey and tray lifecycle
-- Versioned local JSON settings for FPS, quality, cursor and save folder
-- Zero network requirement at runtime
-- No Python or FFmpeg runtime dependency for the native app
+- **Mouse-driven region selection** — exact X/Y/width/height in physical pixels, negative virtual-desktop coordinates included
+- **Windows Graphics Capture** as the primary backend, with **DXGI Desktop Duplication** as an automatic fallback
+- **Direct3D 11** crop, scale and readback — no CPU bitmap round trip on the capture path
+- **H.264 / MP4** through Media Foundation, hardware encoder when available, with a clear error when it is not
+- **30 or 60 FPS**, cursor on or off
+- **Global hotkey** `Ctrl+Shift+R` to start and stop, plus a tray lifecycle
+- **Versioned local settings** for FPS, quality, cursor and save folder
+- **Post-save validation** — the finished MP4 is re-inspected before the app reports success
+- **Safe finalization** — recordings are written to a temporary file and moved into place atomically; a zero-frame session is rejected rather than saved as an empty video
+- **No Python, no FFmpeg, no Electron, no network** — self-contained Windows-native build
 
 ## Requirements
 
-- Windows 10/11
-- .NET 8 SDK for development, or use the self-contained Windows x64 publish
-- Windows 10/11 x64 with Media Foundation and Direct3D 11
+- Windows 10 (2004 / build 19041) or Windows 11, x64
+- Media Foundation and Direct3D 11 (both included in Windows)
+- A hardware H.264 encoder is used when present; a software path exists
+- .NET 8 SDK — only if you build from source
 
-## Run
+## Download and install
+
+**No public release has been published yet.** Once the first one is out it will
+appear under [Releases](https://github.com/smouj/arearec/releases) as a
+self-contained `AreaRec-win-x64.zip` with a SHA-256 sidecar — no installer and
+no .NET runtime required. Extract it, then optionally run
+`INSTALL_PORTABLE.ps1` from the extracted folder to add Start Menu and desktop
+shortcuts. Details: [docs/user/install.md](docs/user/install.md).
+
+## Run from source
+
+From Windows PowerShell:
 
 ```powershell
-dotnet run --project src/AreaRec.App/AreaRec.App.csproj
+git clone https://github.com/smouj/arearec
+cd arearec
+dotnet restore AreaRec.sln --runtime win-x64
+dotnet build AreaRec.sln --configuration Release --no-restore
+dotnet run --project src\AreaRec.App\AreaRec.App.csproj
 ```
 
-Create a self-contained portable build:
+Capture and end-to-end smokes need an interactive Windows desktop. Full build,
+test and packaging instructions: [docs/development/building.md](docs/development/building.md).
 
-```powershell
-.\PUBLISH_PORTABLE.ps1
-```
+## Documentation
 
-The script creates `artifacts/AreaRec-win-x64.zip` and a SHA-256 sidecar.
-
-Para instalar el paquete portátil con accesos directos, extrae el ZIP y ejecuta
-`INSTALL_PORTABLE.ps1` desde esa carpeta. Instala AreaRec en
-`%LOCALAPPDATA%\Programs\AreaRec`, crea el acceso directo del escritorio y añade
-una entrada en el menú Inicio. Usa `-NoDesktopShortcut` si solo quieres la
-entrada del menú Inicio.
+| Audience | Start here |
+| --- | --- |
+| Users | [docs/user/install.md](docs/user/install.md) · [usage](docs/user/usage.md) · [privacy](docs/user/privacy.md) |
+| Contributors | [CONTRIBUTING.md](CONTRIBUTING.md) · [docs/development/building.md](docs/development/building.md) · [testing](docs/development/testing.md) |
+| Architecture | [docs/development/architecture.md](docs/development/architecture.md) · [capture pipeline](docs/development/capture-pipeline.md) |
+| Measurement and history | [performance](docs/development/performance.md) · [verification evidence](docs/history/verification-2026-09-20.md) |
+| Full index | [docs/README.md](docs/README.md) |
 
 ## Design constraints
 
-AreaRec intentionally does not expose system audio, microphone recording, video
-editing, webcam or annotations in the current product UI. The native audio
-contracts and local WASAPI/Media Foundation path are kept ready for a future
-product decision. Multi-monitor composition is implemented but still requires
-runtime verification on mixed-DPI hardware. See
-[docs/NATIVE_MIGRATION.md](docs/NATIVE_MIGRATION.md) and
-[docs/VERIFICATION.md](docs/VERIFICATION.md) for migration status and evidence.
+AreaRec will not become a video editor or an OBS replacement. System audio,
+microphone, webcam, annotations and multi-monitor composition are outside the
+current product surface; the audio engine exists behind the scenes and stays
+unexposed until it can be verified. The v0.1 contract is written down in
+[docs/development/product-scope.md](docs/development/product-scope.md).
 
 ## Privacy
 
-AreaRec does not make network requests. Captures are written directly to the path chosen by the user.
+AreaRec makes no network requests. Recordings are written straight to the folder
+you choose, settings live in `%LOCALAPPDATA%\AreaRec`, and nothing is uploaded
+or telemetered. Details: [docs/user/privacy.md](docs/user/privacy.md).
 
 ## License
 
-AreaRec source code is MIT licensed. The native path uses Windows APIs and the
-.NET runtime only; see [THIRD_PARTY.md](THIRD_PARTY.md) for the current
-dependency inventory.
+MIT — see [LICENSE](LICENSE). The native build uses Windows APIs and the .NET
+runtime only; the dependency inventory is in [THIRD_PARTY.md](THIRD_PARTY.md).
+Brand assets: [docs/BRANDING.md](docs/BRANDING.md).
+
+## Related
+
+- [AreaCut](https://github.com/smouj/areacut) — the editing half of the family
+- [github.com/smouj](https://github.com/smouj) — the rest of the desktop suite

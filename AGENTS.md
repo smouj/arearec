@@ -31,7 +31,7 @@ dotnet format AreaRec.sln --verify-no-changes --no-restore
 dotnet run --project tests/AreaRec.Core.Tests/AreaRec.Core.Tests.csproj --configuration Release --no-build
 ```
 
-The runtime and end-to-end smoke tests in `docs/RELEASE.md` require an
+The runtime and end-to-end smoke tests in `docs/development/testing.md` require an
 interactive Windows desktop. Record hardware-dependent gaps as `NOT VERIFIED`;
 never infer runtime correctness from compilation alone.
 
