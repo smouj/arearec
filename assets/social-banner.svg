@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">AreaRec social banner</title>
+  <desc id="desc">AreaRec local-first screen recorder branding.</desc>
+  <rect width="1600" height="900" fill="#0F0F12"/>
+  <g stroke="#17171B" stroke-width="1">
+    <path d="M0 80h1600M0 160h1600M0 240h1600M0 320h1600M0 400h1600M0 480h1600M0 560h1600M0 640h1600M0 720h1600M0 800h1600"/>
+    <path d="M80 0v900M160 0v900M240 0v900M320 0v900M400 0v900M480 0v900M560 0v900M640 0v900M720 0v900M800 0v900M880 0v900M960 0v900M1040 0v900M1120 0v900M1200 0v900M1280 0v900M1360 0v900M1440 0v900M1520 0v900"/>
+  </g>
+  <ellipse cx="260" cy="460" rx="720" ry="720" fill="none" stroke="#24242A" stroke-width="2"/>
+  <rect x="1110" y="110" width="370" height="680" rx="36" fill="none" stroke="#25252B" stroke-width="2"/>
+  <g fill="none" stroke="#F4F1EA" stroke-width="42" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M190 300V190h110"/>
+    <path d="M510 190h110v110"/>
+    <path d="M190 510v110h110"/>
+    <path d="M510 620h110V510"/>
+  </g>
+  <circle cx="410" cy="400" r="62" fill="#FF3B44"/>
+  <text x="190" y="720" fill="#F4F1EA" font-family="Segoe UI, Arial, sans-serif" font-size="104" font-weight="700">AreaRec</text>
+  <text x="194" y="778" fill="#FF3B44" font-family="Segoe UI, Arial, sans-serif" font-size="30" letter-spacing="2">SELECT  ·  RECORD  ·  SHARE</text>
+  <text x="1110" y="185" fill="#77777F" font-family="Segoe UI, Arial, sans-serif" font-size="24">FOCUS</text>
+  <text x="1110" y="285" fill="#F4F1EA" font-family="Segoe UI, Arial, sans-serif" font-size="56" font-weight="700">RECORD</text>
+  <rect x="1110" y="330" width="325" height="120" rx="24" fill="#15151A" stroke="#2B2B33" stroke-width="2"/>
+  <circle cx="1170" cy="390" r="22" fill="#FF3B44"/>
+  <text x="1220" y="400" fill="#F4F1EA" font-family="Segoe UI, Arial, sans-serif" font-size="30" font-weight="700">LOCAL-FIRST</text>
+  <text x="1110" y="700" fill="#6E6E77" font-family="Segoe UI, Arial, sans-serif" font-size="20" letter-spacing="1">NO CLOUD  ·  NO TELEMETRY</text>
+</svg>

@@ -12,6 +12,13 @@ jobs:
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.0.x
+      - name: Verify brand assets
+        shell: pwsh
+        run: |
+          $required = @('assets/mark.png', 'assets/logo.png', 'assets/social-banner.png', 'assets/AreaRec.ico')
+          foreach ($asset in $required) {
+            if (-not (Test-Path $asset)) { throw "Missing required brand asset: $asset" }
+          }
       - name: Restore
         run: dotnet restore AreaRec.sln --runtime win-x64
       - name: Build

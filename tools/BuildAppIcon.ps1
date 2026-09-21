@@ -5,7 +5,7 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
-if ([string]::IsNullOrWhiteSpace($SourcePath)) { $SourcePath = Join-Path $PSScriptRoot "..\assets\logo.png" }
+if ([string]::IsNullOrWhiteSpace($SourcePath)) { $SourcePath = Join-Path $PSScriptRoot "..\assets\mark.png" }
 if ([string]::IsNullOrWhiteSpace($OutputPath)) { $OutputPath = Join-Path $PSScriptRoot "..\assets\AreaRec.ico" }
 Add-Type -AssemblyName System.Drawing
 
@@ -18,13 +18,8 @@ try {
     $graphics.InterpolationMode = [System.Drawing.Drawing2D.InterpolationMode]::HighQualityBicubic
     $graphics.PixelOffsetMode = [System.Drawing.Drawing2D.PixelOffsetMode]::HighQuality
     $graphics.SmoothingMode = [System.Drawing.Drawing2D.SmoothingMode]::HighQuality
-    $sourceRectangle = New-Object System.Drawing.Rectangle(175, 185, 900, 690)
-    $destinationRectangle = New-Object System.Drawing.Rectangle(12, 12, 232, 232)
-    $graphics.DrawImage(
-        $source,
-        $destinationRectangle,
-        $sourceRectangle,
-        [System.Drawing.GraphicsUnit]::Pixel)
+    $destinationRectangle = New-Object System.Drawing.Rectangle(28, 28, 200, 200)
+    $graphics.DrawImage($source, $destinationRectangle)
     $graphics.Flush()
 
     $outputDirectory = Split-Path -Parent $OutputPath

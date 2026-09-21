@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">AreaRec</title>
+  <desc id="desc">Four crop-frame corners around a red recording dot.</desc>
+  <rect width="1024" height="1024" fill="#0F0F12"/>
+  <g fill="none" stroke="#F4F1EA" stroke-width="42" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M184 300V184h116"/>
+    <path d="M724 184h116v116"/>
+    <path d="M184 724v116h116"/>
+    <path d="M724 840h116V724"/>
+  </g>
+  <circle cx="512" cy="512" r="96" fill="#FF3B44"/>
+  <text x="512" y="946" text-anchor="middle" fill="#F4F1EA" font-family="Segoe UI, Arial, sans-serif" font-size="96" font-weight="700" letter-spacing="3">AreaRec</text>
+</svg>

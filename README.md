@@ -13,6 +13,8 @@
 
 AreaRec is a tiny, local-first Windows screen recorder focused on one workflow: drag a rectangle over the screen and record exactly that area. No account, no cloud, no telemetry, no editor.
 
+The visual identity is documented in [docs/BRANDING.md](docs/BRANDING.md). The repository ships the generated transparent mark, raster lockup, social banner, and Windows `.ico` application icon used by the app and portable installer.
+
 The native Windows implementation lives in the `AreaRec.sln` solution and is
 the only supported product path.
 
