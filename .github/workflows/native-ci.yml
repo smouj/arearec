@@ -28,22 +28,42 @@ jobs:
       - name: Native dependency guard
         shell: pwsh
         run: |
-          $nativeProjects = @('src/AreaRec.App', 'src/AreaRec.Core', 'src/AreaRec.Capture', 'src/AreaRec.Graphics', 'src/AreaRec.Media', 'src/AreaRec.Platform.Windows')
-          $matches = rg --glob '*.cs' --no-heading --line-number --ignore-case 'ffmpeg|ffmpeg\.exe|python|ProcessStartInfo|Process\.Start|HttpClient|WebClient|Socket|TcpClient|UdpClient|NetworkStream' $nativeProjects
-          if ($LASTEXITCODE -eq 0) {
-            Write-Error "Forbidden runtime dependency found in native sources:`n$matches"
+          $ErrorActionPreference = 'Stop'
+          $nativeProjects = @('src/AreaRec.App','src/AreaRec.Core','src/AreaRec.Capture','src/AreaRec.Graphics','src/AreaRec.Media','src/AreaRec.Platform.Windows') | Where-Object { Test-Path $_ }
+          $forbidden = 'ffmpeg|ffmpeg\.exe|python|ProcessStartInfo|Process\.Start|HttpClient|WebClient|Socket|TcpClient|UdpClient|NetworkStream'
+          $hits = Get-ChildItem -Path $nativeProjects -Recurse -File -Filter *.cs |
+            Where-Object { $_.FullName -notmatch '[\\/](obj|bin)[\\/]' } |
+            Select-String -Pattern $forbidden -CaseSensitive:$false
+          if ($hits) {
+            $hits | ForEach-Object { Write-Host "  $($_.Path):$($_.LineNumber): $($_.Line.Trim())" }
+            Write-Error "Forbidden runtime dependency found in native sources."
             exit 1
           }
-          if ($LASTEXITCODE -gt 1) { exit $LASTEXITCODE }
+          Write-Host "Native dependency guard passed: no forbidden runtime dependencies."
+
       - name: Legacy runtime guard
         shell: pwsh
         run: |
-          $legacyFiles = rg --files -g '*.py' -g '*.pyc' -g 'pyproject.toml' -g 'bin/*.exe'
-          if ($LASTEXITCODE -eq 0) {
-            Write-Error "Legacy Python/FFmpeg artifacts found:`n$legacyFiles"
+          $ErrorActionPreference = 'Stop'
+          $ignored = '[\\/](\.git|obj|bin|dist|build|artifacts)[\\/]'
+          $legacy = Get-ChildItem -Path . -Recurse -File -Force |
+            Where-Object { $_.FullName -notmatch $ignored } |
+            Where-Object { $_.Name -like '*.py' -or $_.Name -like '*.pyc' -or $_.Name -eq 'pyproject.toml' }
+          if ($legacy) {
+            $legacy | ForEach-Object { Write-Host "  $($_.FullName)" }
+            Write-Error "Legacy Python/FFmpeg artifacts found."
             exit 1
           }
-          if ($LASTEXITCODE -gt 1) { exit $LASTEXITCODE }
+          if (Test-Path 'bin') {
+            $bins = @(Get-ChildItem -Path 'bin' -Recurse -File -Include *.exe -ErrorAction SilentlyContinue)
+            if ($bins.Count -gt 0) {
+              $bins | ForEach-Object { Write-Host "  $($_.FullName)" }
+              Write-Error "Legacy FFmpeg binaries found."
+              exit 1
+            }
+          }
+          Write-Host "Legacy runtime guard passed: no Python or FFmpeg artifacts."
+
       - name: Core tests
         run: dotnet run --project tests/AreaRec.Core.Tests/AreaRec.Core.Tests.csproj --configuration Release --no-build
       - name: Media Foundation smoke
