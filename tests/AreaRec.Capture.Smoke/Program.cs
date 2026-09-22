@@ -131,7 +131,7 @@ internal static class Program
     {
         await using var source = new WindowsGraphicsCaptureSource();
         await source.StartAsync(settings, CancellationToken.None);
-        var nativeContext = (INativeGraphicsContext)source;
+        WindowsGraphicsCaptureSource nativeContext = source;
         await using var processor = new D3D11FrameProcessor(nativeContext.NativeDevice, nativeContext.NativeContext);
         using var cancellation = new CancellationTokenSource(TimeSpan.FromSeconds(3));
         await foreach (var frame in source.CaptureAsync(cancellation.Token).ConfigureAwait(false))
