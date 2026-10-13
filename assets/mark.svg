@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">AreaRec app icon</title>
+  <desc id="desc">AreaRec symbol in the shared Area crop-frame design.</desc>
+
+    <rect x="22" y="22" width="468" height="468" rx="112" fill="#171E28" stroke="#303B4B" stroke-width="4"/>
+    <g fill="none" stroke="#EEF1F5" stroke-width="32" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M188 112h-32q-44 0-44 44v32"/>
+      <path d="M324 112h32q44 0 44 44v32"/>
+      <path d="M112 324v32q0 44 44 44h32"/>
+      <path d="M324 400h32q44 0 44-44v-32"/>
+    </g>
+    <circle cx="256" cy="256" r="43" fill="#FF5966"/>
+
+</svg>
