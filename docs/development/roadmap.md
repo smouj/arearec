@@ -48,7 +48,7 @@ parked until someone asks for them *and* they can be verified:
 
 ## Out of scope
 
-AreaRec will not become a video editor or an OBS replacement. No timeline, no
+Voryda Rec will not become a video editor or an OBS replacement. No timeline, no
 scenes, no streaming, no annotations, no webcam, no plugin system, no account,
 no cloud, no telemetry, and no external encoder process.
 
