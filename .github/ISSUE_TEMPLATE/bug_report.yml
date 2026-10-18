@@ -1,5 +1,5 @@
 name: Bug report
-description: Report a reproducible AreaRec problem.
+description: Report a reproducible Voryda Rec problem.
 title: "bug: "
 labels: [bug]
 body:
