@@ -34,7 +34,7 @@ internal sealed class MainForm : Form
 
     public MainForm()
     {
-        Text = "AreaRec";
+        Text = "Voryda Rec";
         StartPosition = FormStartPosition.CenterScreen;
         FormBorderStyle = FormBorderStyle.FixedSingle;
         MaximizeBox = false;
@@ -46,7 +46,7 @@ internal sealed class MainForm : Form
             AutoSize = true,
             Font = new Font("Segoe UI", 18, FontStyle.Bold),
             Location = new Point(24, 22),
-            Text = "AreaRec",
+            Text = "Voryda Rec",
         };
 
         var description = new Label
@@ -116,7 +116,7 @@ internal sealed class MainForm : Form
         {
             ContextMenuStrip = trayMenu,
             Icon = LoadApplicationIcon(),
-            Text = "AreaRec",
+            Text = "Voryda Rec",
             Visible = true,
         };
         _tray.DoubleClick += (_, _) =>
@@ -213,7 +213,7 @@ internal sealed class MainForm : Form
             AddExtension = true,
             DefaultExt = "mp4",
             Filter = "MP4 video (*.mp4)|*.mp4",
-            FileName = $"AreaRec-{DateTime.Now:yyyyMMdd-HHmmss}.mp4",
+            FileName = $"VorydaRec-{DateTime.Now:yyyyMMdd-HHmmss}.mp4",
             InitialDirectory = GetInitialSaveFolder(),
             OverwritePrompt = true,
             Title = "Save recording",
