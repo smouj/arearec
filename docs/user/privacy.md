@@ -1,6 +1,6 @@
 # Privacy
 
-AreaRec makes no network requests, at all.
+Voryda Rec makes no network requests, at all.
 
 - No telemetry, analytics, crash reporting or usage statistics.
 - No account, sign-in, licence server or cloud storage.
@@ -21,6 +21,6 @@ Recordings are written to a temporary file next to the target path and moved
 into place atomically once finalization succeeds. Nothing is uploaded, and
 nothing leaves the machine.
 
-The one thing AreaRec cannot promise is where your recordings end up: it saves
+The one thing Voryda Rec cannot promise is where your recordings end up: it saves
 to the folder you pick, so anything you record and then share is your decision,
 not the app's.
