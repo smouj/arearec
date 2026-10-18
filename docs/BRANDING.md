@@ -1,28 +1,36 @@
 # Voryda Rec brand
 
-Voryda Rec is the recording app in the Voryda product family. Its visual language is deliberately focused: a four-corner selection frame and a recording-red center dot communicate “record this exact area” at a glance.
+Voryda Rec is the region-recording utility in the Voryda family. Its mark combines the shared four-corner frame with a recording-red center dot: the frame identifies the family and the dot identifies the recording function.
 
 ## Core assets
 
-| Asset | Use |
+| Asset | Purpose |
 | --- | --- |
-| `assets/mark.png` | Transparent icon for app surfaces, favicons, and product UI |
-| `assets/logo.png` | Dark lockup for README, documentation, and release pages |
-| `assets/social-banner.png` | GitHub/social preview banner |
-| `assets/AreaRec.ico` | Windows executable and shortcut icon (legacy source filename retained for compatibility) |
-| `tools/BuildAppIcon.ps1` | Rebuilds the `.ico` from the transparent mark |
+| `assets/logo.png` | Canonical transparent lockup for light surfaces. 256×256. |
+| `assets/logo-dark.png` | Canonical transparent lockup for dark surfaces. 256×256. |
+| `assets/mark.png` | Compact product mark retained for app surfaces and small placements. |
+| `assets/AreaRec.ico` | Windows executable and shortcut icon; the legacy filename is retained for compatibility. |
+| `assets/social-banner.png` / `assets/social-banner.svg` | Optional social-preview assets. They are not embedded in the README. |
+| `tools/BuildAppIcon.ps1` | Repository tool for rebuilding the Windows icon from the compact mark. |
 
-## Tokens
+## Product token
 
-- Deep charcoal: `#0F0F12`
-- Warm ivory: `#F4F1EA`
-- Voryda Rec recording red: `#FF3B44`
-- Muted graphite: `#25252B`
+| Token | Value |
+| --- | --- |
+| Accent | `#FF3B44` |
+| Role | Region recording |
+| Symbol | Record dot |
+| Family element | Four-corner selection frame |
 
-The red dot is the only saturated accent. Keep the mark on deep charcoal or a neutral light surface with enough contrast. Do not add gradients, shadows, camera silhouettes, or extra controls to the logo.
+Use the red accent for the recording identity. The mark should remain readable at small sizes and should not acquire camera silhouettes, extra controls or ornamental effects.
 
-## Relationship to Voryda Cut
+## Family relationship
 
-Voryda Cut shares the crop-frame geometry but uses a diagonal coral cut mark for editing. Voryda Rec keeps the center dot and recording red for capture. The two marks should feel like one product family while remaining unambiguous in the Windows taskbar and Start menu.
+| Product | Accent | Symbol |
+| --- | --- | --- |
+| Voryda Snap | Amber | Camera aperture |
+| Voryda Rec | Recording red | Record dot |
+| Voryda Down | Teal | Download arrow |
+| Voryda Cut | Coral | Diagonal cut |
 
-The transparent mark was generated with Codex's built-in image generation workflow, cleaned for small disconnected artifacts, and used as the deterministic source for the shipped lockup, banner, and icon.
+Voryda Rec and Voryda Cut are intentionally related because one records material that the other is intended to edit, but their central symbols and accents remain unambiguous.
