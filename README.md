@@ -1,6 +1,6 @@
 <p align="center">
-  <img src="assets/logo.png" alt="AreaRec" width="128"><br>
-  <strong>AreaRec</strong>
+  <img src="assets/logo.svg" alt="Voryda Rec" width="128"><br>
+  <strong>Voryda Rec</strong>
 </p>
 
 <p align="center">
@@ -8,7 +8,7 @@
 </p>
 
 <p align="center">
-  <img src="assets/social-banner.png" alt="AreaRec — Select a region. Record it. Get an MP4." width="680">
+  <img src="assets/social-banner.svg" alt="Voryda Rec — Select a region. Record it. Get an MP4." width="680">
 </p>
 
 <p align="center">
@@ -19,16 +19,16 @@
   <img src="https://img.shields.io/badge/status-alpha-orange?style=flat-square" alt="Status: alpha">
 </p>
 
-**AreaRec** is a tiny, local-first screen recorder for Windows built around one workflow: drag a rectangle over your screen, record exactly that area, get an MP4. No account, no cloud, no telemetry, no editor, no plugin system.
+**Voryda Rec** is a tiny, local-first screen recorder for Windows built around one workflow: drag a rectangle over your screen, record exactly that area, get an MP4. No account, no cloud, no telemetry, no editor, no plugin system.
 
-It is the capture half of the Area family:
+It is the recording app in the Voryda family:
 
 | App | Job |
 | --- | --- |
-| **AreaRec** | Select a region. Record it. Get an MP4. |
-| [**AreaCut**](https://github.com/smouj/areacut) | Cut it, reframe it, caption it, export it. |
+| **Voryda Rec** | Select a region. Record it. Get an MP4. |
+| [**Voryda Cut**](https://github.com/smouj/areacut) | Cut it, reframe it, caption it, export it. |
 
-The two are independent applications. AreaRec produces a plain MP4 that any tool can open — see [AreaCut](https://github.com/smouj/areacut) if you want to edit it.
+The two are independent applications. Voryda Rec produces a plain MP4 that any tool can open — see [Voryda Cut](https://github.com/smouj/areacut) if you want to edit it.
 
 ## Contents
 
@@ -43,7 +43,7 @@ The two are independent applications. AreaRec produces a plain MP4 that any tool
 
 ## Status
 
-AreaRec is **alpha**: the recorder works and has been exercised end to end, but
+Voryda Rec is **alpha**: the recorder works and has been exercised end to end, but
 there is no published release and the cross-hardware verification matrix is
 incomplete. What is proven and what is not is listed item by item in
 [docs/history/verification-2026-09-20.md](docs/history/verification-2026-09-20.md).
@@ -119,7 +119,7 @@ test and packaging instructions: [docs/development/building.md](docs/development
 
 ## Design constraints
 
-AreaRec will not become a video editor or an OBS replacement. System audio,
+Voryda Rec will not become a video editor or an OBS replacement. System audio,
 microphone, webcam, annotations and multi-monitor composition are outside the
 current product surface; the audio engine exists behind the scenes and stays
 unexposed until it can be verified. The v0.1 contract is written down in
@@ -127,7 +127,7 @@ unexposed until it can be verified. The v0.1 contract is written down in
 
 ## Privacy
 
-AreaRec makes no network requests. Recordings are written straight to the folder
+Voryda Rec makes no network requests. Recordings are written straight to the folder
 you choose, settings live in `%LOCALAPPDATA%\AreaRec`, and nothing is uploaded
 or telemetered. Details: [docs/user/privacy.md](docs/user/privacy.md).
 
@@ -139,5 +139,5 @@ Brand assets: [docs/BRANDING.md](docs/BRANDING.md).
 
 ## Related
 
-- [AreaCut](https://github.com/smouj/areacut) — the editing half of the family
+- [Voryda Cut](https://github.com/smouj/areacut) — the editing app in the Voryda family
 - [github.com/smouj](https://github.com/smouj) — the rest of the desktop suite
