@@ -1,15 +1,15 @@
-# AreaRec documentation
+# Voryda Rec documentation
 
-AreaRec is a local-first Windows region screen recorder. These documents are
+Voryda Rec is a local-first Windows region screen recorder. These documents are
 split by audience.
 
 ## For users
 
 | Document | What it covers |
 | --- | --- |
-| [install.md](user/install.md) | How to get AreaRec — today and once the first release ships |
+| [install.md](user/install.md) | How to get Voryda Rec — today and once the first release ships |
 | [usage.md](user/usage.md) | Selecting a region, recording, the hotkey, settings and limits |
-| [privacy.md](user/privacy.md) | What AreaRec does, and does not do, with your data |
+| [privacy.md](user/privacy.md) | What Voryda Rec does, and does not do, with your data |
 
 ## For contributors
 
