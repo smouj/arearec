@@ -1,6 +1,6 @@
-# AreaRec architecture
+# Voryda Rec architecture
 
-AreaRec is a Windows-native .NET 8 application. Everything in the product path
+Voryda Rec is a Windows-native .NET 8 application. Everything in the product path
 is in-process: capture, graphics, encoding and file finalization all use Windows
 APIs. There is no external encoder, no subprocess and no network access.
 
