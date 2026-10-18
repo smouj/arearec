@@ -25,7 +25,7 @@
   <a href="#overview">Overview</a> ·
   <a href="#current-status">Status</a> ·
   <a href="#recording-pipeline">Pipeline</a> ·
-  <a href="#build-and-test">Build</a> ·
+  <a href="#build">Build</a> ·
   <a href="#documentation">Docs</a> ·
   <a href="#privacy">Privacy</a>
 </p>
@@ -131,13 +131,13 @@ For development:
 - .NET 8 SDK.
 - An interactive Windows desktop for capture and end-to-end UI smokes.
 
-## Build and test
+## Build
 
 Clone and build from Windows PowerShell:
 
 ```powershell
-git clone https://github.com/smouj/arearec
-cd arearec
+git clone https://github.com/smouj/voryda-rec
+cd voryda-rec
 dotnet restore AreaRec.sln --runtime win-x64
 dotnet build AreaRec.sln --configuration Release --no-restore
 ```
@@ -211,11 +211,11 @@ The source code is distributed under the **MIT License**. See [LICENSE](LICENSE)
 </p>
 
 <p align="center">
-  <a href="https://github.com/smouj/areasnap">Snap</a>
+  <a href="https://github.com/smouj/voryda-snap">Snap</a>
   ·
-  <a href="https://github.com/smouj/arearec">Rec</a>
+  <a href="https://github.com/smouj/voryda-rec">Rec</a>
   ·
-  <a href="https://github.com/smouj/areadown">Down</a>
+  <a href="https://github.com/smouj/voryda-down">Down</a>
   ·
-  <a href="https://github.com/smouj/areacut">Cut</a>
+  <a href="https://github.com/smouj/voryda-cut">Cut</a>
 </p>
