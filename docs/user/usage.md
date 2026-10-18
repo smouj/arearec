@@ -1,20 +1,20 @@
-# Using AreaRec
+# Using Voryda Rec
 
 ## The workflow
 
 `Select region → Record → Stop → MP4`
 
-That is the whole product. AreaRec deliberately does not do anything after the
+That is the whole product. Voryda Rec deliberately does not do anything after the
 MP4 exists.
 
-1. Start AreaRec. It opens a small window and stays in the tray.
+1. Start Voryda Rec. It opens a small window and stays in the tray.
 2. Press **`Ctrl+Shift+R`** or use the record button to open the selection
    overlay.
 3. Drag a rectangle over the part of the screen you want. Press **`Esc`** to
    cancel.
 4. Recording starts on the region you selected. Press the hotkey again (or press
    Stop) to finish.
-5. AreaRec finalizes the MP4, re-inspects it to confirm it is playable, and
+5. Voryda Rec finalizes the MP4, re-inspects it to confirm it is playable, and
    reports the saved path. The file lands in your configured output folder.
 
 ## What you control
@@ -33,17 +33,17 @@ cannot corrupt them.
 ## How the recording is captured
 
 - **Windows Graphics Capture** is the primary backend.
-- If WGC cannot start, AreaRec retries with **DXGI Desktop Duplication**.
+- If WGC cannot start, Voryda Rec retries with **DXGI Desktop Duplication**.
 - Frames stay on the GPU through **Direct3D 11** crop, scale and readback.
 - **Media Foundation** encodes H.264 into an MP4, using a hardware encoder MFT
   when one is available.
 
-If capture or an encoder cannot start, AreaRec reports an actionable error
+If capture or an encoder cannot start, Voryda Rec reports an actionable error
 rather than crashing or presenting an empty file. Recordings are written to a
 temporary file and moved into place only after finalization succeeds; a session
 that captured zero frames is rejected instead of being saved as a broken video.
 
-## What AreaRec does not do
+## What Voryda Rec does not do
 
 The v0.1 contract is frozen around the shortest useful path, which means:
 
