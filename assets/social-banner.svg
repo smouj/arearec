@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
-  <title id="title">AreaRec social banner</title>
-  <desc id="desc">AreaRec local-first screen recorder branding.</desc>
+  <title id="title">Voryda Rec social banner</title>
+  <desc id="desc">Voryda Rec local-first screen recorder branding.</desc>
   <rect width="1600" height="900" fill="#0F0F12"/>
   <g stroke="#17171B" stroke-width="1">
     <path d="M0 80h1600M0 160h1600M0 240h1600M0 320h1600M0 400h1600M0 480h1600M0 560h1600M0 640h1600M0 720h1600M0 800h1600"/>
@@ -15,7 +15,7 @@
     <path d="M510 620h110V510"/>
   </g>
   <circle cx="410" cy="400" r="62" fill="#FF3B44"/>
-  <text x="190" y="720" fill="#F4F1EA" font-family="Segoe UI, Arial, sans-serif" font-size="104" font-weight="700">AreaRec</text>
+  <text x="190" y="720" fill="#F4F1EA" font-family="Segoe UI, Arial, sans-serif" font-size="104" font-weight="700">Voryda Rec</text>
   <text x="194" y="778" fill="#FF3B44" font-family="Segoe UI, Arial, sans-serif" font-size="30" letter-spacing="2">SELECT  ·  RECORD  ·  SHARE</text>
   <text x="1110" y="185" fill="#77777F" font-family="Segoe UI, Arial, sans-serif" font-size="24">FOCUS</text>
   <text x="1110" y="285" fill="#F4F1EA" font-family="Segoe UI, Arial, sans-serif" font-size="56" font-weight="700">RECORD</text>
