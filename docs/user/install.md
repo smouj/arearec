@@ -1,6 +1,6 @@
-# Installing AreaRec
+# Installing Voryda Rec
 
-> **No public release has been published yet.** AreaRec is alpha: the recorder
+> **No public release has been published yet.** Voryda Rec is alpha: the recorder
 > works and has been exercised end to end, but the build is not on the Releases
 > page and the cross-hardware verification is incomplete. This page describes
 > what installation will look like, and how to run the current source today.
@@ -58,5 +58,5 @@ The build is portable: delete the folder. If you used `INSTALL_PORTABLE.ps1`,
 also delete `%LOCALAPPDATA%\Programs\AreaRec` and the shortcuts it created, and
 `%LOCALAPPDATA%\AreaRec` if you want to drop your saved settings.
 
-Your recordings live wherever you told AreaRec to save them — uninstalling never
+Your recordings live wherever you told Voryda Rec to save them — uninstalling never
 touches them.
