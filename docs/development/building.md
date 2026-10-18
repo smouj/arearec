@@ -1,4 +1,4 @@
-# Building AreaRec from source
+# Building Voryda Rec from source
 
 ## Prerequisites
 
