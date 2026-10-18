@@ -1,6 +1,6 @@
-# Contributing to AreaRec
+# Contributing to Voryda Rec
 
-AreaRec is intentionally small: `Select region → Record → Stop → MP4`. Changes
+Voryda Rec is intentionally small: `Select region → Record → Stop → MP4`. Changes
 should make that path more reliable, measurable or maintainable without
 turning the application into a general-purpose recording suite.
 
