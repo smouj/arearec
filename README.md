@@ -1,143 +1,221 @@
 <p align="center">
-  <img src="assets/logo.svg" alt="Voryda Rec" width="128"><br>
-  <strong>Voryda Rec</strong>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.png">
+    <source media="(prefers-color-scheme: light)" srcset="assets/logo.png">
+    <img src="assets/logo.png" alt="Voryda Rec" width="220">
+  </picture>
+</p>
+
+<h1 align="center">Voryda Rec</h1>
+
+<p align="center">
+  <strong>Select a region. Record it. Get an MP4.</strong>
 </p>
 
 <p align="center">
-  <em>Select a region. Record it. Get an MP4.</em>
+  <img src="https://img.shields.io/badge/platform-Windows%2010%20%7C%2011-0078D4?style=flat-square" alt="Windows 10 and 11">
+  <img src="https://img.shields.io/badge/.NET-8-512BD4?style=flat-square" alt=".NET 8">
+  <img src="https://img.shields.io/badge/capture-WGC%20%2B%20DXGI-555?style=flat-square" alt="Windows Graphics Capture and DXGI">
+  <img src="https://img.shields.io/badge/video-H.264%20%2F%20MP4-555?style=flat-square" alt="H.264 MP4">
+  <img src="https://img.shields.io/badge/status-alpha-D97706?style=flat-square" alt="Alpha">
+  <img src="https://img.shields.io/badge/license-MIT-2EA44F?style=flat-square" alt="MIT License">
 </p>
 
 <p align="center">
-  <img src="assets/social-banner.svg" alt="Voryda Rec — Select a region. Record it. Get an MP4." width="680">
+  <a href="#overview">Overview</a> ·
+  <a href="#current-status">Status</a> ·
+  <a href="#recording-pipeline">Pipeline</a> ·
+  <a href="#build-and-test">Build</a> ·
+  <a href="#documentation">Docs</a> ·
+  <a href="#privacy">Privacy</a>
 </p>
 
-<p align="center">
-  <img src="https://img.shields.io/badge/platform-Windows%2010%20%7C%2011%20x64-blue?style=flat-square" alt="Platform: Windows 10/11 x64">
-  <img src="https://img.shields.io/badge/engine-.NET%208-512bd4?style=flat-square" alt="Engine: .NET 8">
-  <img src="https://img.shields.io/badge/capture-Windows%20Graphics%20Capture-0067c0?style=flat-square" alt="Capture: Windows Graphics Capture with DXGI fallback">
-  <img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="License: MIT">
-  <img src="https://img.shields.io/badge/status-alpha-orange?style=flat-square" alt="Status: alpha">
-</p>
+## Overview
 
-**Voryda Rec** is a tiny, local-first screen recorder for Windows built around one workflow: drag a rectangle over your screen, record exactly that area, get an MP4. No account, no cloud, no telemetry, no editor, no plugin system.
+**Voryda Rec** is a local Windows region recorder focused on one job: select an exact area of the desktop, record it, stop, and keep a standard MP4 file.
 
-It is the recording app in the Voryda family:
+The supported runtime is native .NET 8. Windows Graphics Capture is the primary capture backend, DXGI Desktop Duplication is available as a fallback, Direct3D 11 handles frame processing, and Media Foundation writes H.264/MP4 output. The application does not depend on Python, FFmpeg, Electron or a remote service.
 
-| App | Job |
+Voryda Rec is currently **alpha**. The recording path has been exercised end to end on the development machine, but the full cross-hardware, mixed-DPI and multi-monitor matrix has not been completed.
+
+## Current status
+
+There is currently **no GitHub Release** published for this repository. A self-contained Windows x64 package has been produced and validated locally; that is not the same as a public release.
+
+The latest recorded native verification matrix is dated **2026-09-20**.
+
+| Area | State | Verified evidence |
+| --- | --- | --- |
+| Region selection and <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd> | **Verified locally** | UI smoke covers the shortcut, selector, Escape and drag selection. |
+| Windows Graphics Capture | **Verified locally** | Runtime smoke produced desktop frames. |
+| DXGI Desktop Duplication | **Verified locally** | Runtime and playback smokes produced and decoded frames at 30 and 60 FPS. |
+| Direct3D 11 crop/readback and pacing | **Verified locally** | Exercised in the WGC-to-MP4 end-to-end path. |
+| H.264 / MP4 at 30 FPS | **Verified locally** | Encoded and decoded on the development host. |
+| H.264 / MP4 at 60 FPS | **Verified locally** | Encoded and decoded on the development host. |
+| Cursor on/off | **Verified locally** | Saved outputs showed decoded-frame differences between the two settings. |
+| Post-save validation | **Verified locally** | Final MP4 is inspected before success is reported. |
+| Safe file finalization | **Verified locally** | Temporary-file path, zero-frame rejection and abort cleanup are covered. |
+| Self-contained x64 package | **Verified locally** | Portable payload, checksum, icon and packaged UI smoke were validated. |
+| System-audio engine | **Verified internally** | WASAPI loopback and A/V mux tests pass locally; it is not exposed in the current product UI. |
+| Mixed-DPI / multi-monitor visual accuracy | **Not fully verified** | Coordinate tests exist, but two-monitor visual acceptance is still required. |
+| Device removal / display hot-plug / suspend-resume | **Not verified on faulting hardware** | Error paths exist; the hardware scenarios remain outstanding. |
+| Full 1080p/1440p/4K hardware matrix | **Not complete** | The complete requested hardware/DPI/monitor matrix has not been run. |
+| Public release | **Not published** | GitHub Releases is currently empty. |
+
+Full evidence and the limits of each result are kept in [docs/history/verification-2026-09-20.md](docs/history/verification-2026-09-20.md).
+
+## Recording workflow
+
+1. Start Voryda Rec.
+2. Choose the recording settings.
+3. Select the desktop region to record.
+4. Start and stop with the application controls or <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd>.
+5. The recording is finalized to MP4.
+6. The saved file is re-inspected before the application reports success.
+
+The current product surface supports **30 or 60 FPS** and **cursor on/off**. Settings are persisted locally between sessions.
+
+## Recording pipeline
+
+```text
+Desktop
+  │
+  ├─ Windows Graphics Capture
+  │        or
+  └─ DXGI Desktop Duplication
+           │
+           ▼
+      Direct3D 11
+   crop / scale / readback
+           │
+           ▼
+     bounded frame flow
+           │
+           ▼
+    Media Foundation
+      H.264 / MP4
+           │
+           ▼
+   temporary output file
+           │
+           ▼
+     media validation
+           │
+           ▼
+      final .mp4 file
+```
+
+## Technical design
+
+| Project | Responsibility |
 | --- | --- |
-| **Voryda Rec** | Select a region. Record it. Get an MP4. |
-| [**Voryda Cut**](https://github.com/smouj/areacut) | Cut it, reframe it, caption it, export it. |
+| `AreaRec.App` | WinForms shell, region selector, tray lifecycle, shortcut and local settings. |
+| `AreaRec.Core` | Recording contracts, state, timing, regions, audio models and session logic. |
+| `AreaRec.Capture` | Windows Graphics Capture and DXGI Desktop Duplication backends. |
+| `AreaRec.Graphics` | Direct3D 11 frame processing. |
+| `AreaRec.Media` | Media Foundation capability probing, encoding, MP4 sink and playback validation. |
+| `AreaRec.Platform.Windows` | Windows DPI handling, interop and WASAPI sources. |
 
-The two are independent applications. Voryda Rec produces a plain MP4 that any tool can open — see [Voryda Cut](https://github.com/smouj/areacut) if you want to edit it.
-
-## Contents
-
-- [Status](#status)
-- [Features](#features)
-- [Requirements](#requirements)
-- [Download and install](#download-and-install)
-- [Run from source](#run-from-source)
-- [Documentation](#documentation)
-- [Privacy](#privacy)
-- [License](#license)
-
-## Status
-
-Voryda Rec is **alpha**: the recorder works and has been exercised end to end, but
-there is no published release and the cross-hardware verification matrix is
-incomplete. What is proven and what is not is listed item by item in
-[docs/history/verification-2026-09-20.md](docs/history/verification-2026-09-20.md).
-
-| Area | State |
-| --- | --- |
-| Region selection, 30/60 FPS, cursor on/off, start/stop | ✅ implemented, smoke-tested locally |
-| MP4 / H.264 output through Media Foundation | ✅ local end-to-end recordings decode |
-| Windows Graphics Capture with DXGI Desktop Duplication fallback | ✅ local smoke on one host |
-| Global hotkey `Ctrl+Shift+R`, tray lifecycle, versioned local settings | ✅ local UI smoke |
-| Hardware H.264 encoder selection | ✅ NVIDIA encoder MFT selected on the test host |
-| Self-contained portable package | ✅ produced locally, with SHA-256 |
-| Mixed-DPI and multi-monitor visual accuracy | 🚧 **not verified** — needs two-monitor hardware |
-| Device removal, display hot-unplug, suspend/resume | 🚧 **not verified** |
-| Hardware matrix at 1080p/1440p/4K, 30 and 60 FPS | 🚧 **not verified** |
-| System audio in the product UI | 🚧 engine ready, deliberately not exposed |
-| Public release | ⛔ none yet |
-| GitHub Actions on `main` | ⚠️ currently failing |
-
-## Features
-
-- **Mouse-driven region selection** — exact X/Y/width/height in physical pixels, negative virtual-desktop coordinates included
-- **Windows Graphics Capture** as the primary backend, with **DXGI Desktop Duplication** as an automatic fallback
-- **Direct3D 11** crop, scale and readback — no CPU bitmap round trip on the capture path
-- **H.264 / MP4** through Media Foundation, hardware encoder when available, with a clear error when it is not
-- **30 or 60 FPS**, cursor on or off
-- **Global hotkey** `Ctrl+Shift+R` to start and stop, plus a tray lifecycle
-- **Versioned local settings** for FPS, quality, cursor and save folder
-- **Post-save validation** — the finished MP4 is re-inspected before the app reports success
-- **Safe finalization** — recordings are written to a temporary file and moved into place atomically; a zero-frame session is rejected rather than saved as an empty video
-- **No Python, no FFmpeg, no Electron, no network** — self-contained Windows-native build
+The `AreaRec.*` project names, local settings path and package filenames remain in place for compatibility while the public product name moves to **Voryda Rec**.
 
 ## Requirements
 
-- Windows 10 (2004 / build 19041) or Windows 11, x64
-- Media Foundation and Direct3D 11 (both included in Windows)
-- A hardware H.264 encoder is used when present; a software path exists
-- .NET 8 SDK — only if you build from source
+For the application:
 
-## Download and install
+- Windows 10 version 2004 (build 19041) or Windows 11, x64.
+- Direct3D 11.
+- Windows Media Foundation.
 
-**No public release has been published yet.** Once the first one is out it will
-appear under [Releases](https://github.com/smouj/arearec/releases) as a
-self-contained `AreaRec-win-x64.zip` with a SHA-256 sidecar — no installer and
-no .NET runtime required. Extract it, then optionally run
-`INSTALL_PORTABLE.ps1` from the extracted folder to add Start Menu and desktop
-shortcuts. Details: [docs/user/install.md](docs/user/install.md).
+For development:
 
-## Run from source
+- .NET 8 SDK.
+- An interactive Windows desktop for capture and end-to-end UI smokes.
 
-From Windows PowerShell:
+## Build and test
+
+Clone and build from Windows PowerShell:
 
 ```powershell
 git clone https://github.com/smouj/arearec
 cd arearec
 dotnet restore AreaRec.sln --runtime win-x64
 dotnet build AreaRec.sln --configuration Release --no-restore
+```
+
+Run the application:
+
+```powershell
 dotnet run --project src\AreaRec.App\AreaRec.App.csproj
 ```
 
-Capture and end-to-end smokes need an interactive Windows desktop. Full build,
-test and packaging instructions: [docs/development/building.md](docs/development/building.md).
+Verify formatting and analyzers:
+
+```powershell
+dotnet format AreaRec.sln --verify-no-changes --no-restore
+```
+
+Build the portable package:
+
+```powershell
+.\PUBLISH_PORTABLE.ps1
+```
+
+The repository also contains deterministic core tests, Media Foundation smokes, capture smokes, an application smoke and end-to-end recording smokes. The automated Windows workflow is defined in [`.github/workflows/native-ci.yml`](.github/workflows/native-ci.yml).
+
+## Product boundaries
+
+Voryda Rec is deliberately not an OBS replacement or a video editor. The current user-facing recorder does not expose:
+
+- webcam capture;
+- annotations;
+- a timeline or editor;
+- plugin support;
+- system-audio controls;
+- microphone controls;
+- a multi-monitor compositor UI.
+
+Some lower-level audio work exists and is tested internally, but it remains outside the current product surface until its user-facing behavior is ready and verified.
 
 ## Documentation
 
-| Audience | Start here |
+| Topic | Documentation |
 | --- | --- |
-| Users | [docs/user/install.md](docs/user/install.md) · [usage](docs/user/usage.md) · [privacy](docs/user/privacy.md) |
-| Contributors | [CONTRIBUTING.md](CONTRIBUTING.md) · [docs/development/building.md](docs/development/building.md) · [testing](docs/development/testing.md) |
-| Architecture | [docs/development/architecture.md](docs/development/architecture.md) · [capture pipeline](docs/development/capture-pipeline.md) |
-| Measurement and history | [performance](docs/development/performance.md) · [verification evidence](docs/history/verification-2026-09-20.md) |
+| Install | [docs/user/install.md](docs/user/install.md) |
+| Usage | [docs/user/usage.md](docs/user/usage.md) |
+| Privacy | [docs/user/privacy.md](docs/user/privacy.md) |
+| Architecture | [docs/development/architecture.md](docs/development/architecture.md) |
+| Capture pipeline | [docs/development/capture-pipeline.md](docs/development/capture-pipeline.md) |
+| Building | [docs/development/building.md](docs/development/building.md) |
+| Testing | [docs/development/testing.md](docs/development/testing.md) |
+| Performance | [docs/development/performance.md](docs/development/performance.md) |
+| Product scope | [docs/development/product-scope.md](docs/development/product-scope.md) |
+| Release process | [docs/development/releasing.md](docs/development/releasing.md) |
+| Verification evidence | [docs/history/verification-2026-09-20.md](docs/history/verification-2026-09-20.md) |
 | Full index | [docs/README.md](docs/README.md) |
-
-## Design constraints
-
-Voryda Rec will not become a video editor or an OBS replacement. System audio,
-microphone, webcam, annotations and multi-monitor composition are outside the
-current product surface; the audio engine exists behind the scenes and stays
-unexposed until it can be verified. The v0.1 contract is written down in
-[docs/development/product-scope.md](docs/development/product-scope.md).
 
 ## Privacy
 
-Voryda Rec makes no network requests. Recordings are written straight to the folder
-you choose, settings live in `%LOCALAPPDATA%\AreaRec`, and nothing is uploaded
-or telemetered. Details: [docs/user/privacy.md](docs/user/privacy.md).
+Voryda Rec's supported native runtime makes no network requests. Recordings stay in the folder selected by the user, and settings are stored locally under `%LOCALAPPDATA%\AreaRec`. The application has no telemetry, account system or automatic upload path.
+
+See [docs/user/privacy.md](docs/user/privacy.md) for the repository's privacy notes.
 
 ## License
 
-MIT — see [LICENSE](LICENSE). The native build uses Windows APIs and the .NET
-runtime only; the dependency inventory is in [THIRD_PARTY.md](THIRD_PARTY.md).
-Brand assets: [docs/BRANDING.md](docs/BRANDING.md).
+The source code is distributed under the **MIT License**. See [LICENSE](LICENSE). Third-party and platform dependencies are documented in [THIRD_PARTY.md](THIRD_PARTY.md).
 
-## Related
+---
 
-- [Voryda Cut](https://github.com/smouj/areacut) — the editing app in the Voryda family
-- [github.com/smouj](https://github.com/smouj) — the rest of the desktop suite
+<p align="center">
+  <strong>Voryda</strong><br>
+  Focused Windows utilities.
+</p>
+
+<p align="center">
+  <a href="https://github.com/smouj/areasnap">Snap</a>
+  ·
+  <a href="https://github.com/smouj/arearec">Rec</a>
+  ·
+  <a href="https://github.com/smouj/areadown">Down</a>
+  ·
+  <a href="https://github.com/smouj/areacut">Cut</a>
+</p>
