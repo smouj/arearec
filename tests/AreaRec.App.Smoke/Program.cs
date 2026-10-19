@@ -186,6 +186,12 @@ internal static class Program
                 return 13;
             }
 
+            if (!IsEnabledChildWithText(mainWindow, "Open folder"))
+            {
+                Console.WriteLine("NOT VERIFIED: the validated recording did not enable the Open folder action.");
+                return 15;
+            }
+
             var inspection = Mp4Inspector.Inspect(recordingPath);
             if (!inspection.HasFileTypeBox || !inspection.HasVideoTrack || inspection.Width <= 0 || inspection.Height <= 0 || inspection.Duration <= TimeSpan.Zero)
             {

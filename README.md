@@ -38,6 +38,12 @@ The supported runtime is native .NET 8. Windows Graphics Capture is the primary 
 
 Voryda Rec is currently **alpha**. The recording path has been exercised end to end on the development machine, but the full cross-hardware, mixed-DPI and multi-monitor matrix has not been completed.
 
+## Screenshot
+
+![Voryda Rec screenshot](docs/screenshots/voryda-rec.png)
+
+*Captured from the Windows app. Sample URL and local folder values are anonymized where applicable.*
+
 ## Current status
 
 There is currently **no GitHub Release** published for this repository. A self-contained Windows x64 package has been produced and validated locally; that is not the same as a public release.

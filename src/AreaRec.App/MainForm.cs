@@ -13,6 +13,7 @@ internal sealed class MainForm : Form
     private readonly Label _region = new();
     private readonly Button _record = new();
     private readonly Button _stop = new();
+    private readonly Button _openFolder = new();
     private readonly ComboBox _fps = new();
     private readonly ComboBox _quality = new();
     private readonly CheckBox _cursor = new();
@@ -22,6 +23,7 @@ internal sealed class MainForm : Form
     private PhysicalRegion? _selectedRegion;
     private PhysicalRegion? _recordingRegion;
     private string? _recordingPath;
+    private string? _lastSavedFolder;
     private RecordingSession? _session;
     private readonly NotifyIcon _tray;
     private bool _closing;
@@ -99,15 +101,24 @@ internal sealed class MainForm : Form
         _stop.Enabled = false;
         _stop.Click += async (_, _) => await StopRecordingAsync();
 
-        _status.AutoSize = true;
-        _status.Location = new Point(26, 335);
-        _status.Text = "Native selector · capture ready · recording ready";
+        _status.AutoSize = false;
+        _status.AutoEllipsis = true;
+        _status.Location = new Point(26, 329);
+        _status.Size = new Size(250, 30);
+        _status.Text = "Select region to begin · Ctrl+Shift+R";
+
+        _openFolder.Location = new Point(286, 326);
+        _openFolder.Size = new Size(110, 32);
+        _openFolder.Text = "Open folder";
+        _openFolder.AccessibleName = "Open last recording folder";
+        _openFolder.Enabled = false;
+        _openFolder.Click += (_, _) => OpenOutputFolder();
         _recordingTimer.Tick += (_, _) =>
         {
             _status.Text = $"Recording · {_recordingClock.Elapsed:mm\\:ss} · native capture + D3D11 + Media Foundation";
         };
 
-        Controls.AddRange([title, description, _region, select, _record, _stop, fpsLabel, _fps, qualityLabel, _quality, _cursor, _status]);
+        Controls.AddRange([title, description, _region, select, _record, _stop, fpsLabel, _fps, qualityLabel, _quality, _cursor, _status, _openFolder]);
 
         var trayMenu = new ContextMenuStrip();
         trayMenu.Items.Add("Select region", null, (_, _) => SelectRegion());
@@ -310,6 +321,8 @@ internal sealed class MainForm : Form
                 () => ValidateCompletedOutput(outputPath, expectedRegion.Value),
                 CancellationToken.None);
             var statistics = session.Statistics;
+            _lastSavedFolder = Path.GetDirectoryName(outputPath);
+            _openFolder.Enabled = !string.IsNullOrWhiteSpace(_lastSavedFolder) && Directory.Exists(_lastSavedFolder);
             _status.Text = $"Saved · {statistics.EncodedFrames} frames · {statistics.EffectiveFramesPerSecond:0.0} FPS";
         }
         catch (Exception exception)
@@ -374,6 +387,29 @@ internal sealed class MainForm : Form
         return !string.IsNullOrWhiteSpace(_settings.SaveFolder) && Directory.Exists(_settings.SaveFolder)
             ? _settings.SaveFolder
             : null;
+    }
+
+    private void OpenOutputFolder()
+    {
+        if (string.IsNullOrWhiteSpace(_lastSavedFolder) || !Directory.Exists(_lastSavedFolder))
+        {
+            _openFolder.Enabled = false;
+            _status.Text = "The last recording folder is no longer available.";
+            return;
+        }
+
+        try
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = _lastSavedFolder,
+                UseShellExecute = true,
+            });
+        }
+        catch (Exception exception)
+        {
+            _status.Text = $"Could not open folder: {DescribeException(exception)}";
+        }
     }
 
     private static string DescribeException(Exception exception)
