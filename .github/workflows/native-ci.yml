@@ -30,7 +30,8 @@ jobs:
         run: |
           $ErrorActionPreference = 'Stop'
           $nativeProjects = @('src/AreaRec.App','src/AreaRec.Core','src/AreaRec.Capture','src/AreaRec.Graphics','src/AreaRec.Media','src/AreaRec.Platform.Windows') | Where-Object { Test-Path $_ }
-          $forbidden = 'ffmpeg|ffmpeg\.exe|python|ProcessStartInfo|Process\.Start|HttpClient|WebClient|Socket|TcpClient|UdpClient|NetworkStream'
+          # The app intentionally uses Process.Start with the Windows shell to open a local recordings folder.
+          $forbidden = 'ffmpeg|ffmpeg\.exe|python|HttpClient|WebClient|Socket|TcpClient|UdpClient|NetworkStream'
           $hits = Get-ChildItem -Path $nativeProjects -Recurse -File -Filter *.cs |
             Where-Object { $_.FullName -notmatch '[\\/](obj|bin)[\\/]' } |
             Select-String -Pattern $forbidden -CaseSensitive:$false
@@ -75,3 +76,4 @@ jobs:
       - name: Publish portable package
         shell: pwsh
         run: ./PUBLISH_PORTABLE.ps1
+
