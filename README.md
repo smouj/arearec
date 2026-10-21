@@ -1,8 +1,8 @@
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.png">
-    <source media="(prefers-color-scheme: light)" srcset="assets/logo.png">
-    <img src="assets/logo.png" alt="Voryda Rec app icon" width="180">
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/smouj/voryda-rec/main/assets/logo-dark.png?v=aa63e884a62d9e65f176825624dddf01a7e14ccf63a600452fbc89640b3cfee6">
+    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/smouj/voryda-rec/main/assets/logo.png?v=aa63e884a62d9e65f176825624dddf01a7e14ccf63a600452fbc89640b3cfee6">
+    <img src="https://raw.githubusercontent.com/smouj/voryda-rec/main/assets/logo.png?v=aa63e884a62d9e65f176825624dddf01a7e14ccf63a600452fbc89640b3cfee6" alt="Voryda Rec app icon" width="180">
   </picture>
 </p>
 
