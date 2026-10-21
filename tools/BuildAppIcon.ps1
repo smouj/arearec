@@ -10,44 +10,72 @@ if ([string]::IsNullOrWhiteSpace($OutputPath)) { $OutputPath = Join-Path $PSScri
 Add-Type -AssemblyName System.Drawing
 
 $source = [System.Drawing.Bitmap]::FromFile((Resolve-Path -LiteralPath $SourcePath))
-$canvas = New-Object System.Drawing.Bitmap(256, 256, ([System.Drawing.Imaging.PixelFormat]::Format32bppArgb))
-$graphics = [System.Drawing.Graphics]::FromImage($canvas)
+$sizes = @(256, 128, 64, 48, 32, 24, 16)
+$images = New-Object System.Collections.Generic.List[object]
 
 try {
-    $graphics.Clear([System.Drawing.Color]::FromArgb(255, 15, 15, 18))
-    $graphics.InterpolationMode = [System.Drawing.Drawing2D.InterpolationMode]::HighQualityBicubic
-    $graphics.PixelOffsetMode = [System.Drawing.Drawing2D.PixelOffsetMode]::HighQuality
-    $graphics.SmoothingMode = [System.Drawing.Drawing2D.SmoothingMode]::HighQuality
-    $destinationRectangle = New-Object System.Drawing.Rectangle(28, 28, 200, 200)
-    $graphics.DrawImage($source, $destinationRectangle)
-    $graphics.Flush()
+    foreach ($size in $sizes) {
+        $bitmap = New-Object System.Drawing.Bitmap($size, $size, ([System.Drawing.Imaging.PixelFormat]::Format32bppArgb))
+        try {
+            $graphics = [System.Drawing.Graphics]::FromImage($bitmap)
+            try {
+                $graphics.Clear([System.Drawing.Color]::Transparent)
+                $graphics.InterpolationMode = [System.Drawing.Drawing2D.InterpolationMode]::HighQualityBicubic
+                $graphics.PixelOffsetMode = [System.Drawing.Drawing2D.PixelOffsetMode]::HighQuality
+                $graphics.SmoothingMode = [System.Drawing.Drawing2D.SmoothingMode]::HighQuality
+                $graphics.CompositingQuality = [System.Drawing.Drawing2D.CompositingQuality]::HighQuality
+                $graphics.DrawImage($source, (New-Object System.Drawing.Rectangle(0, 0, $size, $size)))
+
+                $png = New-Object System.IO.MemoryStream
+                try {
+                    $bitmap.Save($png, [System.Drawing.Imaging.ImageFormat]::Png)
+                    $images.Add(@{ Size = $size; Bytes = $png.ToArray() })
+                } finally {
+                    $png.Dispose()
+                }
+            } finally {
+                $graphics.Dispose()
+            }
+        } finally {
+            $bitmap.Dispose()
+        }
+    }
 
     $outputDirectory = Split-Path -Parent $OutputPath
     New-Item -ItemType Directory -Path $outputDirectory -Force | Out-Null
-
-    $iconHandle = $canvas.GetHicon()
+    $stream = [System.IO.File]::Open($OutputPath, [System.IO.FileMode]::Create)
     try {
-        $icon = [System.Drawing.Icon]::FromHandle($iconHandle)
+        $writer = New-Object System.IO.BinaryWriter($stream)
         try {
-            $stream = [System.IO.File]::Open($OutputPath, [System.IO.FileMode]::Create)
-            try { $icon.Save($stream) } finally { $stream.Dispose() }
+            $writer.Write([UInt16]0)
+            $writer.Write([UInt16]1)
+            $writer.Write([UInt16]$images.Count)
+
+            $offset = 6 + (16 * $images.Count)
+            foreach ($entry in $images) {
+                $dimension = if ($entry.Size -eq 256) { [byte]0 } else { [byte]$entry.Size }
+                $writer.Write($dimension)
+                $writer.Write($dimension)
+                $writer.Write([byte]0)
+                $writer.Write([byte]0)
+                $writer.Write([UInt16]1)
+                $writer.Write([UInt16]32)
+                $writer.Write([UInt32]$entry.Bytes.Length)
+                $writer.Write([UInt32]$offset)
+                $offset += $entry.Bytes.Length
+            }
+
+            foreach ($entry in $images) {
+                $writer.Write([byte[]]$entry.Bytes)
+            }
+            $writer.Flush()
         } finally {
-            $icon.Dispose()
+            $writer.Dispose()
         }
     } finally {
-        Add-Type @"
-using System;
-using System.Runtime.InteropServices;
-public static class AreaRecNativeMethods {
-    [DllImport("user32.dll", SetLastError = true)]
-    public static extern bool DestroyIcon(IntPtr handle);
-}
-"@
-        [AreaRecNativeMethods]::DestroyIcon($iconHandle) | Out-Null
+        $stream.Dispose()
     }
 } finally {
-    $graphics.Dispose()
-    $canvas.Dispose()
     $source.Dispose()
 }
 
